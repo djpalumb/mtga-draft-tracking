@@ -18,7 +18,7 @@ LOGFILE_PATH = os.path.join(
     "MTGA",
     "Player.log"
 )
-LOGFILE_PATH = 'test_files\\sample_draft_logs.txt'
+# LOGFILE_PATH = 'test_files\\sample_draft_logs.txt'
 # TODO: remove test logfile path
 
 COLOR_MAP = {
@@ -32,7 +32,7 @@ COLOR_MAP = {
 MULTICOLOR = "#C9A227"
 
 GRADE_COLOR_MAP = {
-    "S": "#EC4CF2DC",
+    "S": "#C35BC7",
     "A": "#6FBF73",
     "B": "#56A3D9",
     "C": "#D2B35A",
