@@ -12,9 +12,7 @@ from src.utils.pull_17lands_data import (
 
 
 def pull_cards_data():
-
     today = datetime.now().strftime("%Y-%m-%d")
-
     return pull_all_cardlist(
         os.path.join(
             "data",
@@ -23,9 +21,7 @@ def pull_cards_data():
     )
 
 
-
 def pull_cards_winrate(set_abv):
-
     return pull_cards_wr_table(
         expansion=set_abv,
         output_name=(
@@ -35,22 +31,16 @@ def pull_cards_winrate(set_abv):
     )
 
 
-
 class UpdateDataPage(ttk.Frame):
-
     def __init__(self, parent, show_menu):
-
         super().__init__(parent)
-
         self.show_menu = show_menu
-
         self.pack(
             fill="both",
             expand=True,
             padx=25,
             pady=25
         )
-
         self.build_ui()
 
 

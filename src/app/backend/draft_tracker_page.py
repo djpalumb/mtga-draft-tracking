@@ -18,6 +18,8 @@ LOGFILE_PATH = os.path.join(
     "MTGA",
     "Player.log"
 )
+LOGFILE_PATH = 'test_files\\sample_draft_logs.txt'
+# TODO: remove test logfile path
 
 COLOR_MAP = {
     "U": "#6FA8DC",
