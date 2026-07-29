@@ -8,7 +8,7 @@ class MainApp:
     def __init__(self, root):
         self.root = root
         self.root.title("MTGA Helper")
-        self.root.geometry("700x900")
+        self.root.geometry("700x800")
 
         self.container = tk.Frame(root)
         self.container.pack(fill="both", expand=True)
