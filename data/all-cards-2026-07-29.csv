@@ -10122,7 +10122,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 81582,HBG,Wyll of the Fiend Pact,mythic,BR,6,Legendary Creature - Human Warlock,False
 81516,HBG,"Rasaad, Shadow Monk",uncommon,BW,4,Legendary Creature - Human Monk,False
 81736,HBG,Blood Money,mythic,B,7,Sorcery,True
-81513,HBG,"Rasaad, Monk of Selûne",uncommon,W,3,Legendary Creature - Human Monk,True
+81513,HBG,"Rasaad, Monk of SelÃ»ne",uncommon,W,3,Legendary Creature - Human Monk,True
 81249,HBG,Snowborn Simulacra,mythic,U,2,Sorcery,True
 81517,HBG,"Rasaad, Warrior Monk",uncommon,RW,4,Legendary Creature - Human Monk,False
 81707,HBG,Guild Thief,uncommon,U,2,Creature - Orc Rogue,True
@@ -11066,7 +11066,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 82275,DMU,"Tori D'Avenant, Fury Rider",uncommon,RW,4,Legendary Creature - Human Knight,True
 82095,DMU,Battlewing Mystic,uncommon,RU,2,Creature - Bird Wizard,True
 82054,DMU,Anointed Peacekeeper,rare,W,3,Creature - Human Cleric,True
-82276,DMU,"Tura Kennerüd, Skyknight",uncommon,UW,5,Legendary Creature - Human Knight,True
+82276,DMU,"Tura KennerÃ¼d, Skyknight",uncommon,UW,5,Legendary Creature - Human Knight,True
 82079,DMU,Phyrexian Missionary,uncommon,BW,2,Creature - Phyrexian Human Cleric,True
 82146,DMU,Extinguish the Light,common,B,4,Instant,True
 82332,DMU,Ragefire Hellkite,rare,R,6,Creature - Dragon,False
@@ -11208,7 +11208,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 82382,DMU,"Stenn, Paranoid Partisan",rare,UW,2,Legendary Creature - Human Wizard,False
 82383,DMU,"Tatyova, Steward of Tides",uncommon,GU,3,Legendary Creature - Merfolk Druid,False
 82384,DMU,"Tori D'Avenant, Fury Rider",uncommon,RW,4,Legendary Creature - Human Knight,False
-82385,DMU,"Tura Kennerüd, Skyknight",uncommon,UW,5,Legendary Creature - Human Knight,False
+82385,DMU,"Tura KennerÃ¼d, Skyknight",uncommon,UW,5,Legendary Creature - Human Knight,False
 82386,DMU,"Uurg, Spawn of Turg",uncommon,BG,3,Legendary Creature - Frog Beast,False
 82387,DMU,"Vohar, Vodalian Desecrator",uncommon,BU,2,Legendary Creature - Phyrexian Merfolk Wizard,False
 82388,DMU,"Zar Ojanen, Scion of Efrava",uncommon,GW,5,Legendary Creature - Cat Warrior,False
@@ -12606,7 +12606,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 86645,SIS,Increasing Ambition,rare,B,5,Sorcery,True
 86665,SIS,Mayor of Avabruck,rare,G,2,Creature - Human Advisor Werewolf,True
 86442,SIS,Avacyn's Collar,uncommon,,1,Artifact - Equipment,True
-86381,SIS,Séance,uncommon,W,4,Enchantment,True
+86381,SIS,SÃ©ance,uncommon,W,4,Enchantment,True
 86668,SIS,Somberwald Sage,uncommon,G,3,Creature - Human Druid,True
 86657,SIS,Past in Flames,mythic,R,4,Sorcery,True
 86659,SIS,Traitorous Blood,common,R,3,Sorcery,True
@@ -13693,7 +13693,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 84930,LTR,Ent-Draught Basin,uncommon,,2,Artifact,True
 84891,LTR,Doors of Durin,rare,GR,5,Legendary Artifact,True
 84902,LTR,Gwaihir the Windlord,uncommon,UW,6,Legendary Creature - Bird Noble,True
-84867,LTR,Lothlórien Lookout,common,G,2,Creature - Elf Scout,True
+84867,LTR,LothlÃ³rien Lookout,common,G,2,Creature - Elf Scout,True
 84941,LTR,Shire Scarecrow,common,,2,Artifact Creature - Scarecrow,True
 84757,LTR,Press the Enemy,rare,U,4,Instant,True
 84950,LTR,Mount Doom,mythic,BR,0,Legendary Land,True
@@ -13729,7 +13729,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 84721,LTR,Second Breakfast,common,W,3,Instant,True
 84815,LTR,"Erkenbrand, Lord of Westfold",uncommon,R,4,Legendary Creature - Human Soldier,True
 87581,LTR,Swamp,basic,B,0,Basic Land - Swamp,True
-84826,LTR,"Grishnákh, Brash Instigator",uncommon,R,3,Legendary Creature - Goblin Soldier,True
+84826,LTR,"GrishnÃ¡kh, Brash Instigator",uncommon,R,3,Legendary Creature - Goblin Soldier,True
 84910,LTR,"Pippin, Guard of the Citadel",rare,UW,2,Legendary Creature - Halfling Soldier,True
 84873,LTR,Peregrin Took,uncommon,G,3,Legendary Creature - Halfling Citizen,True
 84763,LTR,Stern Scolding,uncommon,U,1,Instant,True
@@ -13742,9 +13742,9 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 84705,LTR,Esquire of the King,common,W,1,Creature - Human Soldier,True
 84709,LTR,Forge Anew,rare,W,3,Enchantment,True
 84777,LTR,Gollum's Bite,uncommon,B,1,Instant,True
-84906,LTR,"Mauhúr, Uruk-hai Captain",uncommon,BR,2,Legendary Creature - Orc Soldier,True
+84906,LTR,"MauhÃºr, Uruk-hai Captain",uncommon,BR,2,Legendary Creature - Orc Soldier,True
 84737,LTR,Captain of Umbar,common,U,3,Creature - Human Pirate,True
-84726,LTR,Tale of Tinúviel,uncommon,W,5,Enchantment - Saga,True
+84726,LTR,Tale of TinÃºviel,uncommon,W,5,Enchantment - Saga,True
 84811,LTR,Display of Power,rare,R,3,Instant,True
 84936,LTR,Mirror of Galadriel,uncommon,,2,Legendary Artifact,True
 84818,LTR,Fiery Inscription,uncommon,R,3,Enchantment,True
@@ -13760,7 +13760,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 84904,LTR,"Legolas, Counter of Kills",uncommon,GU,4,Legendary Creature - Elf Archer,True
 84725,LTR,Stalwarts of Osgiliath,common,W,5,Creature - Human Soldier,True
 84982,LTR,Knight of the Keep,common,W,3,Creature - Human Knight,False
-84803,LTR,Troll of Khazad-dûm,common,B,6,Creature - Troll,True
+84803,LTR,Troll of Khazad-dÃ»m,common,B,6,Creature - Troll,True
 84814,LTR,Erebor Flamesmith,common,R,2,Creature - Dwarf Artificer,True
 84775,LTR,Easterling Vanguard,common,B,2,Creature - Human Warrior,True
 84847,LTR,Brandywine Farmer,common,G,3,Creature - Halfling Peasant,True
@@ -13800,12 +13800,12 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 87583,LTR,Mountain,basic,R,0,Basic Land - Mountain,True
 84859,LTR,Galadhrim Bow,common,G,3,Artifact - Equipment,True
 84912,LTR,Ringsight,uncommon,BU,3,Sorcery,True
-84939,LTR,Palantír of Orthanc,mythic,,3,Legendary Artifact,True
-84780,LTR,Gríma Wormtongue,uncommon,B,3,Legendary Creature - Human Advisor,True
+84939,LTR,PalantÃ­r of Orthanc,mythic,,3,Legendary Artifact,True
+84780,LTR,GrÃ­ma Wormtongue,uncommon,B,3,Legendary Creature - Human Advisor,True
 84806,LTR,Witch-king of Angmar,mythic,B,5,Legendary Creature - Wraith Noble,True
 84769,LTR,Bitter Downfall,uncommon,B,4,Instant,True
 84771,LTR,Call of the Ring,rare,B,2,Enchantment,True
-84752,LTR,Lórien Revealed,common,U,5,Sorcery,True
+84752,LTR,LÃ³rien Revealed,common,U,5,Sorcery,True
 84938,LTR,The One Ring,mythic,,4,Legendary Artifact,True
 84723,LTR,Slip On the Ring,common,W,2,Instant,True
 84804,LTR,Uruk-hai Berserker,common,B,3,Creature - Orc Berserker,True
@@ -13817,17 +13817,17 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 84975,LTR,"Saradoc, Master of Buckland",rare,W,4,Legendary Creature - Halfling Citizen,False
 84834,LTR,Rally at the Hornburg,common,R,2,Sorcery,True
 84850,LTR,Delighted Halfling,rare,G,1,Creature - Halfling Citizen,True
-84928,LTR,"Andúril, Flame of the West",mythic,,3,Legendary Artifact - Equipment,True
+84928,LTR,"AndÃºril, Flame of the West",mythic,,3,Legendary Artifact - Equipment,True
 84875,LTR,"Quickbeam, Upstart Ent",uncommon,G,6,Legendary Creature - Treefolk,True
 84942,LTR,"Sting, the Glinting Dagger",rare,,2,Legendary Artifact - Equipment,True
-84698,LTR,Dúnedain Blade,common,W,2,Artifact - Equipment,True
+84698,LTR,DÃºnedain Blade,common,W,2,Artifact - Equipment,True
 87577,LTR,Plains,basic,W,0,Basic Land - Plains,True
 84718,LTR,Reprieve,uncommon,W,2,Instant,True
 84787,LTR,Mirkwood Bats,common,B,4,Creature - Bat,True
 84914,LTR,Samwise Gamgee,rare,GW,2,Legendary Creature - Halfling Peasant,True
-84886,LTR,Arwen Undómiel,uncommon,GU,2,Legendary Creature - Elf Noble,True
+84886,LTR,Arwen UndÃ³miel,uncommon,GU,2,Legendary Creature - Elf Noble,True
 84748,LTR,Ioreth of the Healing House,uncommon,U,3,Legendary Creature - Human Cleric,True
-84851,LTR,Dúnedain Rangers,uncommon,G,4,Creature - Human Ranger,True
+84851,LTR,DÃºnedain Rangers,uncommon,G,4,Creature - Human Ranger,True
 84985,LTR,Fires of Mount Doom,rare,R,3,Legendary Enchantment,False
 84740,LTR,Dreadful as the Storm,common,U,3,Instant,True
 84868,LTR,Many Partings,common,G,1,Sorcery,True
@@ -13850,7 +13850,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 84920,LTR,"Shagrat, Loot Bearer",rare,BR,4,Legendary Creature - Orc Soldier,True
 84711,LTR,Gandalf the White,mythic,W,5,Legendary Creature - Avatar Wizard,True
 84882,LTR,Wose Pathfinder,common,G,2,Creature - Human Shaman,True
-84812,LTR,"Éomer, Marshal of Rohan",rare,R,4,Legendary Creature - Human Knight,True
+84812,LTR,"Ãomer, Marshal of Rohan",rare,R,4,Legendary Creature - Human Knight,True
 84915,LTR,Saruman of Many Colors,mythic,BUW,6,Legendary Creature - Avatar Wizard,True
 84853,LTR,Elven Farsight,common,G,1,Sorcery,True
 84922,LTR,"Shelob, Child of Ungoliant",rare,BG,6,Legendary Creature - Spider Demon,True
@@ -13863,7 +13863,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 84730,LTR,You Cannot Pass!,uncommon,W,1,Instant,True
 84881,LTR,Stew the Coneys,uncommon,G,3,Instant,True
 84820,LTR,Foray of Orcs,uncommon,R,4,Sorcery,True
-84792,LTR,Nazgûl,uncommon,B,3,Creature - Wraith Knight,True
+84792,LTR,NazgÃ»l,uncommon,B,3,Creature - Wraith Knight,True
 84918,LTR,Shadow Summoning,uncommon,BW,2,Sorcery,True
 84732,LTR,The Bath Song,uncommon,U,4,Enchantment - Saga,True
 84844,LTR,Warbeast of Gorgoroth,common,R,5,Creature - Beast,True
@@ -13876,7 +13876,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 84929,LTR,Barrow-Blade,uncommon,,1,Artifact - Equipment,True
 84708,LTR,Fog on the Barrow-Downs,common,W,3,Enchantment - Aura,True
 87585,LTR,Forest,basic,G,0,Basic Land - Forest,True
-84824,LTR,"Glóin, Dwarf Emissary",rare,R,3,Legendary Creature - Dwarf Advisor,True
+84824,LTR,"GlÃ³in, Dwarf Emissary",rare,R,3,Legendary Creature - Dwarf Advisor,True
 84695,LTR,Bill the Pony,uncommon,W,4,Legendary Creature - Horse,True
 84707,LTR,Flowering of the White Tree,rare,W,2,Legendary Enchantment,True
 84710,LTR,"Frodo, Sauron's Bane",rare,BW,1,Legendary Creature - Halfling Citizen,True
@@ -13886,7 +13886,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 84924,LTR,"Strider, Ranger of the North",uncommon,GR,4,Legendary Creature - Human Ranger,True
 84831,LTR,Oliphaunt,common,R,6,Creature - Elephant,True
 84700,LTR,Eastfarthing Farmer,common,W,3,Creature - Halfling Peasant,True
-84945,LTR,Barad-dûr,rare,B,0,Legendary Land,True
+84945,LTR,Barad-dÃ»r,rare,B,0,Legendary Land,True
 84809,LTR,Breaking of the Fellowship,common,R,2,Sorcery,True
 84738,LTR,Council's Deliberation,uncommon,U,2,Instant,True
 84788,LTR,Mordor Muster,common,B,2,Sorcery,True
@@ -13896,7 +13896,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 84713,LTR,"Landroval, Horizon Witness",uncommon,W,5,Legendary Creature - Bird Noble,True
 84843,LTR,There and Back Again,rare,R,5,Enchantment - Saga,True
 84807,LTR,Battle-Scarred Goblin,common,R,2,Creature - Goblin Warrior,True
-84762,LTR,Soothing of Sméagol,common,U,2,Instant,True
+84762,LTR,Soothing of SmÃ©agol,common,U,2,Instant,True
 84741,LTR,"Elrond, Lord of Rivendell",uncommon,U,3,Legendary Creature - Elf Noble,True
 84724,LTR,Soldier of the Grey Host,common,W,4,Creature - Spirit Soldier,True
 84838,LTR,Rohirrim Lancer,common,R,1,Creature - Human Knight,True
@@ -13914,7 +13914,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 84743,LTR,Glorious Gale,common,U,2,Instant,True
 84947,LTR,The Grey Havens,uncommon,,0,Legendary Land,True
 84900,LTR,Gandalf's Sanction,uncommon,RU,3,Sorcery,True
-84893,LTR,"Éowyn, Fearless Knight",rare,RW,4,Legendary Creature - Human Knight,True
+84893,LTR,"Ãowyn, Fearless Knight",rare,RW,4,Legendary Creature - Human Knight,True
 84799,LTR,Shadow of the Enemy,mythic,B,6,Sorcery,True
 84869,LTR,Meriadoc Brandybuck,uncommon,G,2,Legendary Creature - Halfling Citizen,True
 84785,LTR,Lobelia Sackville-Baggins,rare,B,3,Legendary Creature - Halfling Citizen,True
@@ -13923,16 +13923,16 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 84896,LTR,Friendly Rivalry,uncommon,GR,2,Instant,True
 87579,LTR,Island,basic,U,0,Basic Land - Island,True
 84880,LTR,Shower of Arrows,common,G,3,Instant,True
-84898,LTR,Galadriel of Lothlórien,rare,GU,3,Legendary Creature - Elf Noble,True
+84898,LTR,Galadriel of LothlÃ³rien,rare,GU,3,Legendary Creature - Elf Noble,True
 84863,LTR,"Glorfindel, Dauntless Rescuer",uncommon,G,3,Legendary Creature - Elf Noble,True
 84991,LTR,"Sauron, the Lidless Eye",mythic,BR,5,Legendary Creature - Avatar Horror,False
 84729,LTR,Westfold Rider,common,W,2,Creature - Human Knight,True
 84810,LTR,Cast into the Fire,common,R,2,Instant,True
-84923,LTR,"Sméagol, Helpful Guide",rare,BG,3,Legendary Creature - Halfling Horror,True
+84923,LTR,"SmÃ©agol, Helpful Guide",rare,BG,3,Legendary Creature - Halfling Horror,True
 84857,LTR,Fall of Gil-galad,rare,G,2,Enchantment - Saga,True
 84800,LTR,Shelob's Ambush,common,B,1,Instant,True
 84990,LTR,"Aragorn and Arwen, Wed",mythic,GW,6,Legendary Creature - Human Elf Noble,False
-84813,LTR,Éomer of the Riddermark,uncommon,R,5,Legendary Creature - Human Knight,True
+84813,LTR,Ãomer of the Riddermark,uncommon,R,5,Legendary Creature - Human Knight,True
 84765,LTR,Surrounded by Orcs,common,U,4,Sorcery,True
 84749,LTR,Isolation at Orthanc,common,U,4,Instant,True
 84871,LTR,Mirrormere Guardian,common,G,3,Creature - Dwarf Soldier,True
@@ -13952,19 +13952,19 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 84827,LTR,Haradrim Spearmaster,common,R,3,Creature - Human Warrior,True
 84933,LTR,Horn of the Mark,rare,,2,Legendary Artifact,True
 84935,LTR,Lembas,common,,2,Artifact - Food,True
-84988,LTR,"The Balrog, Flame of Udûn",rare,BR,5,Legendary Creature - Avatar Demon,False
+84988,LTR,"The Balrog, Flame of UdÃ»n",rare,BR,5,Legendary Creature - Avatar Demon,False
 84828,LTR,Hew the Entwood,mythic,R,5,Sorcery,True
 84739,LTR,Deceive the Messenger,common,U,1,Instant,True
 84980,LTR,"Frodo, Determined Hero",rare,W,2,Legendary Creature - Halfling Warrior,False
 84858,LTR,"Fangorn, Tree Shepherd",rare,G,7,Legendary Creature - Treefolk,True
 84839,LTR,Rush the Room,common,R,1,Instant,True
 84879,LTR,Shortcut to Mushrooms,uncommon,G,2,Enchantment,True
-84927,LTR,Uglúk of the White Hand,uncommon,BR,4,Legendary Creature - Orc Soldier,True
+84927,LTR,UglÃºk of the White Hand,uncommon,BR,4,Legendary Creature - Orc Soldier,True
 84832,LTR,Olog-hai Crusher,common,R,4,Creature - Troll Soldier,True
-84925,LTR,"Théoden, King of Rohan",uncommon,RW,3,Legendary Creature - Human Noble,True
+84925,LTR,"ThÃ©oden, King of Rohan",uncommon,RW,3,Legendary Creature - Human Noble,True
 84984,LTR,"Witch-king, Bringer of Ruin",rare,B,6,Legendary Creature - Wraith Noble,False
 84951,LTR,Rivendell,rare,U,0,Legendary Land,True
-84702,LTR,"Éowyn, Lady of Rohan",uncommon,W,3,Legendary Creature - Human Noble,True
+84702,LTR,"Ãowyn, Lady of Rohan",uncommon,W,3,Legendary Creature - Human Noble,True
 84888,LTR,"Bilbo, Retired Burglar",uncommon,RU,3,Legendary Creature - Halfling Rogue,True
 84976,LTR,Elvish Mariner,rare,U,3,Creature - Elf Pilot,False
 84989,LTR,Bilbo's Ring,rare,,3,Legendary Artifact - Equipment,False
@@ -13974,26 +13974,26 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 87594,LTR,Mountain,basic,R,0,Basic Land - Mountain,True
 87590,LTR,Island,basic,U,0,Basic Land - Island,True
 87578,LTR,Plains,basic,W,0,Basic Land - Plains,True
-87602,LTR,Nazgûl,uncommon,B,3,Creature - Wraith Knight,False
+87602,LTR,NazgÃ»l,uncommon,B,3,Creature - Wraith Knight,False
 87588,LTR,Plains,basic,W,0,Basic Land - Plains,True
-87599,LTR,Nazgûl,uncommon,B,3,Creature - Wraith Knight,False
+87599,LTR,NazgÃ»l,uncommon,B,3,Creature - Wraith Knight,False
 87591,LTR,Swamp,basic,B,0,Basic Land - Swamp,True
-87603,LTR,Nazgûl,uncommon,B,3,Creature - Wraith Knight,False
-87597,LTR,Nazgûl,uncommon,B,3,Creature - Wraith Knight,False
+87603,LTR,NazgÃ»l,uncommon,B,3,Creature - Wraith Knight,False
+87597,LTR,NazgÃ»l,uncommon,B,3,Creature - Wraith Knight,False
 87592,LTR,Swamp,basic,B,0,Basic Land - Swamp,True
-87604,LTR,Nazgûl,uncommon,B,3,Creature - Wraith Knight,False
-87600,LTR,Nazgûl,uncommon,B,3,Creature - Wraith Knight,False
+87604,LTR,NazgÃ»l,uncommon,B,3,Creature - Wraith Knight,False
+87600,LTR,NazgÃ»l,uncommon,B,3,Creature - Wraith Knight,False
 87593,LTR,Mountain,basic,R,0,Basic Land - Mountain,True
 87584,LTR,Mountain,basic,R,0,Basic Land - Mountain,True
-87598,LTR,Nazgûl,uncommon,B,3,Creature - Wraith Knight,False
+87598,LTR,NazgÃ»l,uncommon,B,3,Creature - Wraith Knight,False
 87596,LTR,Forest,basic,G,0,Basic Land - Forest,True
 87586,LTR,Forest,basic,G,0,Basic Land - Forest,True
-87601,LTR,Nazgûl,uncommon,B,3,Creature - Wraith Knight,False
+87601,LTR,NazgÃ»l,uncommon,B,3,Creature - Wraith Knight,False
 87595,LTR,Forest,basic,G,0,Basic Land - Forest,True
 87582,LTR,Swamp,basic,B,0,Basic Land - Swamp,True
 87580,LTR,Island,basic,U,0,Basic Land - Island,True
 87589,LTR,Island,basic,U,0,Basic Land - Island,True
-87605,LTR,Barad-dûr,rare,B,0,Legendary Land,False
+87605,LTR,Barad-dÃ»r,rare,B,0,Legendary Land,False
 87606,LTR,Minas Tirith,rare,W,0,Legendary Land,False
 87607,LTR,Mines of Moria,rare,R,0,Legendary Land,False
 87608,LTR,Mount Doom,mythic,BR,0,Legendary Land,False
@@ -14018,7 +14018,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 87627,LTR,"Elrond, Master of Healing",rare,GU,4,Legendary Creature - Elf Noble,False
 87628,LTR,"Faramir, Prince of Ithilien",rare,UW,4,Legendary Creature - Human Noble,False
 87629,LTR,Frodo Baggins,uncommon,GW,2,Legendary Creature - Halfling Scout,False
-87630,LTR,Galadriel of Lothlórien,rare,GU,3,Legendary Creature - Elf Noble,False
+87630,LTR,Galadriel of LothlÃ³rien,rare,GU,3,Legendary Creature - Elf Noble,False
 87631,LTR,Gandalf the Grey,rare,RU,5,Legendary Creature - Avatar Wizard,False
 87632,LTR,"Gimli, Mournful Avenger",rare,GR,3,Legendary Creature - Dwarf Warrior,False
 87633,LTR,"Legolas, Counter of Kills",uncommon,GU,4,Legendary Creature - Elf Archer,False
@@ -14027,7 +14027,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 87636,LTR,Samwise Gamgee,rare,GW,2,Legendary Creature - Halfling Peasant,False
 87637,LTR,Saruman of Many Colors,mythic,BUW,6,Legendary Creature - Avatar Wizard,False
 87638,LTR,"Sauron, the Dark Lord",mythic,BRU,6,Legendary Creature - Avatar Horror,False
-87639,LTR,"Sméagol, Helpful Guide",rare,BG,3,Legendary Creature - Halfling Horror,False
+87639,LTR,"SmÃ©agol, Helpful Guide",rare,BG,3,Legendary Creature - Halfling Horror,False
 87640,LTR,Tom Bombadil,mythic,BGRUW,5,Legendary Creature - God Bard,False
 84960,TLTR,Smaug,token,,0,Legendary Creature - Dragon,False
 84961,TLTR,Ballistic Boulder,token,,0,Artifact Creature - Construct,False
@@ -14896,7 +14896,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 87399,LCI,Palani's Hatcher,rare,GR,5,Creature - Dinosaur,True
 87186,LCI,Cogwork Wrestler,common,U,1,Artifact Creature - Gnome,True
 87242,LCI,Corpses of the Lost,rare,B,3,Enchantment,True
-87384,LCI,Bartolomé del Presidio,uncommon,BW,2,Legendary Creature - Vampire Knight,True
+87384,LCI,BartolomÃ© del Presidio,uncommon,BW,2,Legendary Creature - Vampire Knight,True
 87325,LCI,Trumpeting Carnosaur,rare,R,6,Creature - Dinosaur,True
 87221,LCI,Staunch Crewmate,uncommon,U,2,Creature - Human Pirate,True
 87138,LCI,Cosmium Blast,common,W,2,Instant,True
@@ -15101,7 +15101,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 90346,ARENASUP,"Chimil, the Inner Sun Emblem",mythic,,0,Artifact,False
 90772,LCC,"Admiral Brass, Unsinkable",mythic,BRU,5,Legendary Creature - Human Pirate,False
 90775,LCC,"Pantlaza, Sun-Favored",mythic,GRW,5,Legendary Creature - Dinosaur,True
-90773,LCC,"Clavileño, First of the Blessed",mythic,BW,3,Legendary Creature - Vampire Cleric,False
+90773,LCC,"ClavileÃ±o, First of the Blessed",mythic,BW,3,Legendary Creature - Vampire Cleric,False
 90779,LCC,"Xolatoyac, the Smiling Flood",mythic,GU,6,Legendary Creature - Salamander Serpent,False
 90780,LCC,"Pantlaza, Sun-Favored",mythic,GRW,5,Legendary Creature - Dinosaur,False
 90197,SLD,Forest,rare,G,0,Basic Land - Forest,False
@@ -16516,7 +16516,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 91071,MH3,Flooded Strand,rare,,0,Land,True
 90885,MH3,Muster the Departed,uncommon,W,3,Enchantment,True
 91097,MH3,Reef Worm,uncommon,U,4,Creature - Worm,True
-91028,MH3,"Arna Kennerüd, Skycaptain",mythic,BUW,5,Legendary Creature - Human Knight,True
+91028,MH3,"Arna KennerÃ¼d, Skycaptain",mythic,BUW,5,Legendary Creature - Human Knight,True
 90846,MH3,Suppression Ray,uncommon,UW,5,Sorcery,True
 90880,MH3,Indebted Spirit,uncommon,W,1,Enchantment Creature - Spirit,True
 90973,MH3,Ghostfire Slice,uncommon,R,3,Instant,True
@@ -16772,7 +16772,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 91969,MH3,Six,rare,G,3,Legendary Creature - Treefolk,False
 91929,MH3,Kaalia of the Vast,mythic,BRW,4,Legendary Creature - Human Cleric,False
 91946,MH3,"Ral, Leyline Prodigy",mythic,RU,0,Legendary Planeswalker - Ral,False
-91970,MH3,"Arna Kennerüd, Skycaptain",mythic,BUW,5,Legendary Creature - Human Knight,False
+91970,MH3,"Arna KennerÃ¼d, Skycaptain",mythic,BUW,5,Legendary Creature - Human Knight,False
 91930,MH3,Psychic Frog,rare,BU,2,Creature - Frog,False
 91938,MH3,"Ulamog, the Defiler",mythic,,10,Legendary Creature - Eldrazi,False
 91971,MH3,"Breya, Etherium Shaper",mythic,BRUW,4,Legendary Artifact Creature - Human,False
@@ -22479,7 +22479,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 97914,SPM,Taxi Driver,common,R,2,Creature - Human Pilot,True
 97979,SPM,Bagel and Schmear,common,W,1,Artifact - Food,True
 97932,SPM,"Spider-Ham, Peter Porker",rare,G,2,Legendary Creature - Spider Boar Hero,True
-97941,SPM,"Araña, Heart of the Spider",rare,RW,3,Legendary Creature - Spider Human Hero,True
+97941,SPM,"AraÃ±a, Heart of the Spider",rare,RW,3,Legendary Creature - Spider Human Hero,True
 97978,SPM,"Wraith, Vicious Vigilante",uncommon,UW,3,Legendary Creature - Human Detective Hero,True
 98042,OMB,Winds of Change,uncommon,R,1,Sorcery,True
 98041,OMB,Unexpected Windfall,common,R,4,Instant,True
@@ -25058,7 +25058,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 104985,MSH,Construct a Cosmic Cube,rare,B,3,Enchantment - Plan,True
 105046,MSH,The Scarlet Witch,rare,R,3,Legendary Creature - Mutant Warlock Hero,True
 105058,MSH,Claim the Kingdom,uncommon,G,2,Enchantment - Plan,True
-105041,MSH,"Mjölnir, Hammer of Thor",mythic,R,4,Legendary Artifact - Equipment,True
+105041,MSH,"MjÃ¶lnir, Hammer of Thor",mythic,R,4,Legendary Artifact - Equipment,True
 104908,MSH,"Invisible Woman, Sue Storm",uncommon,W,5,Legendary Creature - Human Hero,True
 105113,MSH,"Killmonger, Scourge of Wakanda",uncommon,BG,4,Legendary Creature - Human Mercenary Villain,True
 105022,MSH,Death to Our Enemies,uncommon,R,3,Enchantment - Plan,True
@@ -25457,7 +25457,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 105288,MSH,Multiversal Incursion,mythic,U,7,Sorcery,False
 105289,MSH,Secret Invasion,rare,U,3,Enchantment - Aura,False
 105290,MSH,Avengers Disassembled,rare,R,3,Sorcery,False
-105291,MSH,"Mjölnir, Hammer of Thor",mythic,R,4,Legendary Artifact - Equipment,False
+105291,MSH,"MjÃ¶lnir, Hammer of Thor",mythic,R,4,Legendary Artifact - Equipment,False
 105292,MSH,World War Hulk,rare,G,5,Enchantment - Saga,False
 105293,MSH,Armor Wars,rare,RU,4,Enchantment - Saga,False
 105294,MSH,Avengers: Under Siege,rare,BR,4,Enchantment - Saga,False
@@ -25495,7 +25495,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 105326,MSH,Doctor Doom,mythic,B,6,Legendary Creature - Human Scientist Villain,False
 105327,MSH,Cosmic Cube,mythic,,5,Artifact,False
 105328,MSH,"Thor, God of Thunder",mythic,R,5,Legendary Creature - God Warrior Hero,False
-105329,MSH,"Mjölnir, Hammer of Thor",mythic,R,4,Legendary Artifact - Equipment,False
+105329,MSH,"MjÃ¶lnir, Hammer of Thor",mythic,R,4,Legendary Artifact - Equipment,False
 105330,MSH,Blazing Crescendo,common,R,2,Instant,False
 105331,MSH,Avengers Assemble!,mythic,W,5,Enchantment,False
 105332,MSH,"Captain Marvel, Earth's Protector",mythic,W,5,Legendary Creature - Human Kree Hero,False
@@ -25826,7 +25826,7 @@ id,expansion,name,rarity,color_identity,mana_value,types,is_booster
 105753,MSC,"Marvel Boy, Noh-Varr",uncommon,RW,2,Legendary Creature - Kree Soldier Hero,False
 105388,MSC,"Doctor Doom, King of Latveria",mythic,BRU,4,Legendary Creature - Human Noble Villain,False
 105477,MSC,"Shuri, the Black Panther",mythic,GW,2,Legendary Creature - Human Noble Hero,False
-105707,MSC,Mjölnir's Might,common,R,4,Sorcery,False
+105707,MSC,MjÃ¶lnir's Might,common,R,4,Sorcery,False
 105647,MSC,Shi'ar Soldier,uncommon,U,2,Creature - Shi'ar Soldier,False
 105638,MSC,"Loki, Lord of Misrule",mythic,U,4,Legendary Creature - God Sorcerer Villain,False
 105539,MSC,"Mockingbird, Bobbi Morse",common,W,4,Legendary Creature - Human Hero,False

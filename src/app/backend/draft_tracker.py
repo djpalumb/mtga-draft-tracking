@@ -4,6 +4,7 @@ import pandas as pd
 from src.utils.winrates import get_cards_winrate_by_id, get_winrate_grade_cutoffs, CARD_WINRATE_FILEPATH_MSH
 import os
 import re
+from src.utils.pull_17lands_data import get_cards_data_as_of
 
 test_log = os.path.join('test_files', 'sample_draft_logs.txt')
 with open(test_log, 'r') as f:
@@ -61,14 +62,12 @@ def get_winrate_grade(winrate, cutoffs):
         return "F"
 
 
-class RankedCardsApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("MTGA Ranked Cards")
-        self.root.geometry("500x600")
+class RankedCardsApp(tk.Frame):
+    def __init__(self, parent, show_menu):
+        super().__init__(parent)
 
-        self.frame = tk.Frame(root)
-        self.frame.pack(fill="both", expand=True, padx=10, pady=10)
+        self.pack(fill="both", expand=True, padx=10, pady=10)
+        self.show_menu = show_menu
 
         # Get grade cutoffs
         self.grade_cutoffs = get_winrate_grade_cutoffs(
@@ -79,10 +78,16 @@ class RankedCardsApp:
 
     def refresh(self):
         # Clear existing cards
-        for widget in self.frame.winfo_children():
+        for widget in self.winfo_children():
             widget.destroy()
 
-        df = get_cards_winrate_by_id(first_pack)
+        # Get the cards file
+        all_cards_filepath = get_cards_data_as_of()['filepath']
+
+        df = get_cards_winrate_by_id(
+            card_ids=first_pack,
+            card_ids_ref_filepath=all_cards_filepath
+        )
 
         # Sort by win rate
         df = df.sort_values("GIH WR", ascending=False, ignore_index=True)
@@ -100,8 +105,15 @@ class RankedCardsApp:
                 grade
             )
 
+        tk.Button(
+            self,
+            text="Back To Main Menu",
+            command=self.show_menu
+        ).pack(pady=20)
+
+
     def add_card(self, name, winrate, identity, grade):
-        row = tk.Frame(self.frame)
+        row = tk.Frame(self)
         row.pack(fill="x", pady=3)
 
         # Card name box
