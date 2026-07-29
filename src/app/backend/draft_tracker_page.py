@@ -14,7 +14,14 @@ from src.utils.logfile_parser import parse_through_draft_logs
 # Hardcoded testing logfile
 # ------------------------------------------------------------------
 TEST_LOG = os.path.join("test_files", "sample_draft_logs.txt")
-
+LOGFILE_PATH = os.path.join(
+    os.path.expanduser("~"),
+    "AppData",
+    "LocalLow",
+    "Wizards Of The Coast",
+    "MTGA",
+    "Player.log"
+)
 
 COLOR_MAP = {
     "U": "#6FA8DC",
@@ -79,7 +86,7 @@ class DraftViewerApp(tk.Frame):
         # ---------------------------------------------------------
         # Parse draft log for existing draft
         # ---------------------------------------------------------
-        with open(TEST_LOG, "r", encoding="utf-8") as f:
+        with open(LOGFILE_PATH, "r", encoding="utf-8") as f:
             logfile_lines = f.readlines()
 
         self.draft = parse_through_draft_logs(logfile_lines)
