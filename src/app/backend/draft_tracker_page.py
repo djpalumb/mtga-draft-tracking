@@ -18,7 +18,7 @@ LOGFILE_PATH = os.path.join(
     "MTGA",
     "Player.log"
 )
-# LOGFILE_PATH = 'test_files\\sample_draft_logs.txt'
+LOGFILE_PATH = 'test_files\\sample_draft_logs.txt'
 # TODO: remove test logfile path
 
 COLOR_MAP = {
@@ -143,6 +143,10 @@ class DraftViewerApp(ttk.Frame):
 
             return
 
+        ########################################
+        ## Panel Info
+        ########################################
+
         pack, pick = self.indices[self.current_index]
 
         ttk.Label(
@@ -166,6 +170,10 @@ class DraftViewerApp(ttk.Frame):
             pady=10
         )
 
+        ########################################
+        ## Navigation
+        ########################################
+
         ttk.Button(
             nav,
             text="← Previous",
@@ -185,6 +193,11 @@ class DraftViewerApp(ttk.Frame):
             padx=5,
             pady=10
         )
+
+
+        ########################################
+        ## Pack Cards
+        ########################################
 
         seen = self.draft.get_seen(pack,pick)
         picked = self.draft.get_pick(pack,pick)
@@ -252,6 +265,10 @@ class DraftViewerApp(ttk.Frame):
                 selected
             )
 
+        ########################################
+        ## Known Missing Cards
+        ########################################
+
         if missing:
             ttk.Label(
                 frame,
@@ -273,7 +290,11 @@ class DraftViewerApp(ttk.Frame):
             )
 
             for _, row in missing_df.iterrows():
-
+                grade = get_winrate_grade(
+                    row["GIH WR"],
+                    self.grade_cutoffs
+                )
+                
                 self.card_row(
                     frame,
                     row["name"],
@@ -282,7 +303,11 @@ class DraftViewerApp(ttk.Frame):
                     grade,
                     False
                 )
-        
+
+        ########################################
+        ## Menu Button
+        ########################################
+
         ttk.Button(
             self,
             text="Back",
