@@ -1,12 +1,7 @@
 Short Term
 - Listen to logfile for new lines
     - Parse to find start of draft (and type of draft)
-- Display cards and winrates for most recent draft pack
-- Build info for last full draft 
-    - Allow user to page to previous packs (display pack on top)
-    - Allow user to see known missing if a wheel pack (based on draft type)
 
 Longterm
-- Menu option with ability to select format type to pull from 17lands data and naming convention
-    - Use naming to pull proper winrate file when in draft
+- Use naming in logfile to pull proper winrate file when in draft (or just have user input format)
 - Show user's mean and median card selection winrates for overall draft grade

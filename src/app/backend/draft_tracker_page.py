@@ -10,9 +10,6 @@ from src.utils.winrates import (
 
 from src.utils.pull_17lands_data import get_cards_data_as_of
 from src.utils.logfile_parser import parse_through_draft_logs
-
-
-
 LOGFILE_PATH = os.path.join(
     os.path.expanduser("~"),
     "AppData",
@@ -21,7 +18,6 @@ LOGFILE_PATH = os.path.join(
     "MTGA",
     "Player.log"
 )
-
 
 COLOR_MAP = {
     "U": "#6FA8DC",
@@ -34,7 +30,7 @@ COLOR_MAP = {
 MULTICOLOR = "#C9A227"
 
 GRADE_COLOR_MAP = {
-    "S": "#F2C94C",
+    "S": "#EC4CF2DC",
     "A": "#6FBF73",
     "B": "#56A3D9",
     "C": "#D2B35A",
