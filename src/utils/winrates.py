@@ -65,7 +65,7 @@ def get_cards_winrate_by_id(
 
 if __name__ == '__main__':
     # test
-    test_log = os.path.join('data', 'sample_draft_logs.txt')
+    test_log = os.path.join('test_files', 'sample_draft_logs.txt')
     with open(test_log, 'r') as f:
         text = f.read()
 
