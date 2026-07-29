@@ -46,6 +46,20 @@ def get_card_color(identity):
 
     return COLOR_MAP.get(identity, "#FFFFFF")
 
+def get_winrate_grade(winrate, cutoffs):
+    if winrate >= cutoffs["S"]:
+        return "S"
+    elif winrate >= cutoffs["A"]:
+        return "A"
+    elif winrate >= cutoffs["B"]:
+        return "B"
+    elif winrate >= cutoffs["C"]:
+        return "C"
+    elif winrate >= cutoffs["D"]:
+        return "D"
+    else:
+        return "F"
+
 
 class RankedCardsApp:
     def __init__(self, root):
@@ -63,20 +77,6 @@ class RankedCardsApp:
 
         self.refresh()
 
-    def get_winrate_grade(self, winrate, cutoffs):
-        if winrate >= cutoffs["S"]:
-            return "S"
-        elif winrate >= cutoffs["A"]:
-            return "A"
-        elif winrate >= cutoffs["B"]:
-            return "B"
-        elif winrate >= cutoffs["C"]:
-            return "C"
-        elif winrate >= cutoffs["D"]:
-            return "D"
-        else:
-            return "F"
-
     def refresh(self):
         # Clear existing cards
         for widget in self.frame.winfo_children():
@@ -88,7 +88,7 @@ class RankedCardsApp:
         df = df.sort_values("GIH WR", ascending=False, ignore_index=True)
 
         for _, row in df.iterrows():
-            grade = self.get_winrate_grade(
+            grade = get_winrate_grade(
                 row["GIH WR"],
                 self.grade_cutoffs
             )
