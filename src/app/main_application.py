@@ -3,6 +3,7 @@ from tkinter import ttk
 
 from src.app.backend.draft_tracker_page import DraftViewerApp
 from src.app.backend.data_update import UpdateDataPage
+from src.app.frontend.style import configure_style
 
 class MainApp:
     def __init__(self, root):
@@ -12,7 +13,7 @@ class MainApp:
         self.root.geometry("700x800")
         self.root.minsize(600, 600)
 
-        self.configure_style()
+        configure_style(self)
 
         self.container = ttk.Frame(root)
         self.container.pack(
@@ -22,93 +23,6 @@ class MainApp:
 
         self.show_menu()
 
-
-    def configure_style(self):
-        style = ttk.Style()
-        style.theme_use("clam")
-        bg = "#1e1e1e"
-        panel = "#2a2a2a"
-        text = "#eeeeee"
-
-        self.root.configure(bg=bg)
-
-        style.configure(
-            ".",
-            background=bg,
-            foreground=text,
-            font=("Segoe UI", 11)
-        )
-
-        style.configure(
-            "TFrame",
-            background=bg
-        )
-
-        style.configure(
-            "Card.TFrame",
-            background=panel
-        )
-
-        style.configure(
-            "TLabel",
-            background=bg,
-            foreground=text
-        )
-
-        style.configure(
-            "Title.TLabel",
-            font=("Segoe UI", 22, "bold")
-        )
-
-        style.configure(
-            "Subtitle.TLabel",
-            font=("Segoe UI", 12)
-        )
-
-        style.configure(
-            "TButton",
-            padding=(12, 8),
-            font=("Segoe UI", 11)
-        )
-
-
-        style.configure(
-            "TButton",
-            background="#333333",
-            foreground="#eeeeee",
-            padding=(12, 8),
-            font=("Segoe UI", 11)
-        )
-
-        style.map(
-            "TButton",
-            background=[
-                ("active", "#555555"),
-                ("pressed", "#222222")
-            ],
-            foreground=[
-                ("active", "#ffffff"),
-                ("pressed", "#ffffff")
-            ]
-        )
-
-        style.configure("Custom.TEntry", foreground="black")
-        style.configure(
-            "TEntry",
-            fieldbackground="#333333",
-            foreground="#eeeeee",
-            insertcolor="#eeeeee"
-        )
-
-        style.map(
-            "TEntry",
-            fieldbackground=[
-                ("focus", "#444444")
-            ],
-            foreground=[
-                ("focus", "#ffffff")
-            ]
-        )
 
     def clear_frame(self):
         for widget in self.container.winfo_children():

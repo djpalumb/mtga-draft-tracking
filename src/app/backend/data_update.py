@@ -7,7 +7,8 @@ from datetime import datetime
 from src.utils.pull_17lands_data import (
     pull_cards_wr_table,
     pull_all_cardlist,
-    get_cards_data_as_of
+    get_cards_data_as_of,
+    get_most_recent_winrate_files
 )
 
 
@@ -25,8 +26,7 @@ def pull_cards_winrate(set_abv):
     return pull_cards_wr_table(
         expansion=set_abv,
         output_name=(
-            f"card-ratings-{set_abv.replace(' ','+')}-"
-            f"{datetime.now().strftime('%Y-%m-%d')}.csv"
+            f"card-ratings-{set_abv.replace(' ','+')}-{datetime.now().strftime('%Y-%m-%d')}.csv"
         )
     )
 
@@ -44,6 +44,19 @@ class UpdateDataPage(ttk.Frame):
         self.build_ui()
 
 
+    def refresh_winrate_table(self):
+        # Clear existing rows
+        for item in self.wr_table.get_children():
+            self.wr_table.delete(item)
+
+        files = get_most_recent_winrate_files()
+
+        for set_name in sorted(files):
+            path = files[set_name]
+            date = path.stem.rsplit("-", 3)[-3:]
+            date = "-".join(date)
+            self.wr_table.insert("", "end", values=(set_name, date))
+
     def build_ui(self):
 
         ttk.Label(
@@ -55,11 +68,8 @@ class UpdateDataPage(ttk.Frame):
             pady=(0,25)
         )
 
-
         self.build_card_section()
-
         self.build_winrate_section()
-
 
         self.status_label = ttk.Label(
             self,
@@ -70,7 +80,6 @@ class UpdateDataPage(ttk.Frame):
             pady=15
         )
 
-
         ttk.Button(
             self,
             text="← Back",
@@ -80,18 +89,15 @@ class UpdateDataPage(ttk.Frame):
 
 
     def build_card_section(self):
-
         box = ttk.LabelFrame(
             self,
             text=" Card Data ",
             padding=15
         )
-
         box.pack(
             fill="x",
             pady=10
         )
-
 
         ttk.Label(
             box,
@@ -106,7 +112,6 @@ class UpdateDataPage(ttk.Frame):
             box,
             text=""
         )
-
         self.card_date_label.grid(
             row=0,
             column=1,
@@ -116,26 +121,23 @@ class UpdateDataPage(ttk.Frame):
         current = get_cards_data_as_of()
 
         if current:
-
             self.card_date_label.config(
                 text=current["date"]
             )
 
-        ttk.Button(
+        self.update_card_data_button = ttk.Button(
             box,
             text="Update Cards",
             command=self.update_cards
-        ).grid(
+        )
+        self.update_card_data_button.grid(
             row=1,
             column=0,
             columnspan=2,
             pady=15
         )
 
-
-
     def build_winrate_section(self):
-
         box = ttk.LabelFrame(
             self,
             text=" Winrate Data ",
@@ -160,23 +162,62 @@ class UpdateDataPage(ttk.Frame):
             padx=10
         )
 
+        ttk.Label(
+            box,
+            text="Downloaded:"
+        ).grid(
+            row=1,
+            column=0,
+            sticky="nw",
+            pady=(15, 0)
+        )
 
-        ttk.Button(
+        self.wr_table = ttk.Treeview(
+            box,
+            columns=("set", "date"),
+            show="headings",
+            height=6
+        )
+
+        self.wr_table.heading("set", text="Set")
+        self.wr_table.heading("date", text="Downloaded")
+
+        self.wr_table.column("set", width=80, anchor="center")
+        self.wr_table.column("date", width=120, anchor="center")
+
+        self.refresh_winrate_table()
+
+        self.wr_table.grid(
+            row=1,
+            column=1,
+            sticky="ew",
+            padx=10,
+            pady=(15, 0)
+        )
+
+        self.update_wr_button = ttk.Button(
             box,
             text="Update Winrates",
             command=self.update_winrates
-        ).grid(
-            row=1,
+        )
+
+        self.update_wr_button.grid(
+            row=2,
             column=0,
             columnspan=2,
             pady=15
         )
 
-
     def update_cards(self):
         self.status_label.config(
             text="Downloading card data..."
         )
+
+        self.update_card_data_button.config(
+            text="Downloading...",
+            state="disabled"
+        )
+        self.update_idletasks() 
 
         success = pull_cards_data()
 
@@ -187,16 +228,27 @@ class UpdateDataPage(ttk.Frame):
                 else "✗ Update failed"
             )
         )
+        self.update_card_data_button.config(
+            text="Update Cards",
+            state="normal"
+        )
 
 
 
     def update_winrates(self):
+        print('Running update winrates...')
 
         set_name = self.wr_set_entry.get()
 
         self.status_label.config(
             text="Downloading winrates..."
         )
+
+        self.update_wr_button.config(
+            text="Downloading...",
+            state="disabled"
+        )
+        self.update_idletasks() 
 
         success = pull_cards_winrate(set_name)
 
@@ -206,4 +258,12 @@ class UpdateDataPage(ttk.Frame):
                 if success
                 else "✗ Update failed"
             )
+        )
+
+        if success:
+            self.refresh_winrate_table()
+
+        self.update_wr_button.config(
+            text="Update Winrates",
+            state="normal"
         )

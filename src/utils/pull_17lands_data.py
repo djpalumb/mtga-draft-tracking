@@ -11,7 +11,36 @@ import glob
 from bs4 import BeautifulSoup
 import re
 import pandas as pd
+from pathlib import Path
 
+def get_most_recent_winrate_files(data_dir="data"):
+    """
+    Returns a dict mapping each set code to the path of its most recent
+    winrate CSV file.
+
+    Example return:
+    {
+        "BLB": Path("data/card-ratings-BLB-2026-07-20.csv"),
+        "FDN": Path("data/card-ratings-FDN-2026-06-15.csv"),
+    }
+    """
+    pattern = re.compile(r"^card-ratings-(.+)-(\d{4}-\d{2}-\d{2})\.csv$")
+
+    newest = {}
+
+    for path in Path(data_dir).glob("card-ratings-*.csv"):
+        match = pattern.match(path.name)
+        if not match:
+            continue
+
+        set_code, date_str = match.groups()
+        date = datetime.strptime(date_str, "%Y-%m-%d").date()
+
+        if set_code not in newest or date > newest[set_code][0]:
+            newest[set_code] = (date, path)
+
+    return {set_code: path for set_code, (_, path) in newest.items()}
+    
 
 def get_cards_data_as_of(data_dir="data"):
     """
