@@ -13,6 +13,21 @@ def get_cards_winrate_by_name(
     card_winrate_ref_filepath: str = CARD_WINRATE_FILEPATH_MSH,
     win_metric: str = 'GIH WR'
 ):
+    """
+    Function pulls winrates of cards given their names and the corresponding set winrate file.
+
+    Args:
+        card_names - List[str]            
+            List of card names
+        card_winrate_ref_filepath - str    
+            Path to winrate file from 17 lands
+        win_metric - str    
+            Col name used for winrrate
+    
+    Return 
+        Dataframe with name and winrate columns
+    """
+
     card_df = pd.DataFrame({'Name': card_names})
 
     # Merge in metric
@@ -45,6 +60,24 @@ def get_cards_winrate_by_id(
     card_winrate_ref_filepath: str = CARD_WINRATE_FILEPATH_MSH,
     win_metric: str = 'GIH WR'
 ):
+
+    """
+    Function pulls winrates of cards given their card ids and the corresponding set winrate file.
+
+    Args:
+        card_ids - List[int]            
+            List of card ids
+        card_ids_ref_filepath - str
+            Path to id refernce file from 17 lands
+        card_winrate_ref_filepath - str    
+            Path to winrate file from 17 lands
+        win_metric - str    
+            Col name used for winrrate
+    
+    Return 
+        Dataframe with name and winrate columns
+    """
+
     # Merge to get all the names for the cards
     card_df = pd.DataFrame({'id': card_ids})
     card_names_df = pd.read_csv(card_ids_ref_filepath, index_col=None)

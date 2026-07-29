@@ -15,14 +15,17 @@ def pull_table(
     expansion: str,
     output_name: str
 ):
+    """
+    Uses headless chrome webdriver to pull exported card winrate data for a given expansion off 17 lands
+    Download will look for most recent csv file in download folder and rename it to output name
+    
+    Args
+        expansion - str
+            code for expansion (e.g. MSH)
+        output_name - str
+            name for output csv file
+    """
     full_url = BASE_URL.replace('{exp}', expansion)
-
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "application/json, text/html, */*",
-        "Accept-Language": "en-US,en;q=0.9",
-        "Referer": "https://google.com"
-    }
 
     download_dir = os.path.join(os.getcwd(), 'data')
 
