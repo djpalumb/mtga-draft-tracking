@@ -14,6 +14,27 @@ class DraftTracker:
         self.seen = {}
         self.pick_two = pick_two
 
+    def __str__(self):
+        lines = [
+            f"DraftTracker(pick_two={self.pick_two})",
+            f"  Seen entries: {len(self.seen)}",
+            f"  Pick entries: {len(self.picks)}",
+        ]
+
+        all_keys = sorted(set(self.seen) | set(self.picks))
+
+        for pack, pick in all_keys:
+            seen = self.seen.get((pack, pick))
+            chosen = self.picks.get((pack, pick))
+
+            lines.append(
+                f"  Pack {pack}, Pick {pick}: "
+                f"seen={seen}, picked={chosen}"
+            )
+
+        return "\n".join(lines)
+    
+
     def get_current_index(self):
         keys = self.seen.keys()
         max_pack = max([x for (x,y) in keys])
@@ -80,22 +101,34 @@ class DraftTracker:
     def get_known_missing(
         self,
         pack: int,
-        pick: int        
+        pick: int
     ):
         """
-        If this pack is a wheel pack, we will know what was already in the pack and should be able to determine the list of ids that is missing from it.
+        If this pack is a wheel pack, determine cards that disappeared
+        since the last time this player saw the pack.
         """
 
         if self.pick_two:
-            prev_pick = pick-4
+            prev_pick = pick - 4
         else:
-            prev_pick = pick-8
+            prev_pick = pick - 8
 
         if prev_pick < 0:
             return []
 
-        if (pack, prev_pick) in self.seen and (pack, pick) in self.seen:
-            return list((Counter(self.seen[((pack, prev_pick))]) - Counter([((pack, pick))])).elements())
-
-        else:
+        if (pack, prev_pick) not in self.seen:
             return []
+
+        if (pack, pick) not in self.seen:
+            return []
+
+        previous_seen = Counter(self.seen[(pack, prev_pick)])
+        current_seen = Counter(self.seen[(pack, pick)])
+
+        known_missing = previous_seen - current_seen
+
+        # Remove cards you personally took
+        if (pack, prev_pick) in self.picks:
+            known_missing -= Counter(self.picks[(pack, prev_pick)])
+
+        return list(known_missing.elements())

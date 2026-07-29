@@ -1,14 +1,14 @@
 import tkinter as tk
 from tkinter import ttk
 
-from src.app.backend.draft_tracker import RankedCardsApp
+from src.app.backend.draft_tracker_page import DraftViewerApp
 from src.app.backend.data_update import UpdateDataPage
 
 class MainApp:
     def __init__(self, root):
         self.root = root
         self.root.title("MTGA Helper")
-        self.root.geometry("500x600")
+        self.root.geometry("700x900")
 
         self.container = tk.Frame(root)
         self.container.pack(fill="both", expand=True)
@@ -52,7 +52,7 @@ class MainApp:
         self.clear_frame()
 
         # Create your existing tracker inside this frame
-        RankedCardsApp(
+        DraftViewerApp(
             self.container,
             self.show_menu
         )
