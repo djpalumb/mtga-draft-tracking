@@ -5,6 +5,8 @@ from src.app.backend.draft_tracker_page import DraftViewerApp
 from src.app.backend.data_update import UpdateDataPage
 from src.app.frontend.style import configure_style
 
+import os
+
 class MainApp:
     def __init__(self, root):
         self.root = root
@@ -80,6 +82,9 @@ class MainApp:
 
 
 if __name__ == "__main__":
+    # Make data folder if it doesnt exist
+    os.makedirs('data', exist_ok=True)
+
     root = tk.Tk()
     app = MainApp(root)
     root.mainloop()
