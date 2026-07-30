@@ -24,8 +24,7 @@ LOGFILE_PATH = os.path.join(
     "MTGA",
     "Player.log"
 )
-LOGFILE_PATH = 'test_files\\sample_draft_logs.log'
-# TODO: remove test logfile path
+TEST_LOGFILE_PATH = os.path.join('test_files','sample_draft_logs.log')
 
 COLOR_MAP = {
     "U": "#6FA8DC",
@@ -73,7 +72,12 @@ def get_winrate_grade(winrate, cutoffs):
 
 class DraftViewerApp(ttk.Frame):
 
-    def __init__(self, parent, show_menu):
+    def __init__(
+        self, 
+        parent, 
+        show_menu,
+        test_mode: bool = False
+    ):
         super().__init__(parent)
         self.show_menu = show_menu
         self.pack(
@@ -82,6 +86,9 @@ class DraftViewerApp(ttk.Frame):
             padx=20,
             pady=20
         )
+
+        self.test_mode = test_mode
+        self.logfile_path = TEST_LOGFILE_PATH if self.test_mode else LOGFILE_PATH
 
         # Get Cards
         try:
@@ -96,7 +103,7 @@ class DraftViewerApp(ttk.Frame):
         
         # Setup listener
         self.listener = DraftLogListener(
-            LOGFILE_PATH,
+            self.logfile_path,
             self.draft,
         )
         self.listener_running = True
@@ -119,7 +126,7 @@ class DraftViewerApp(ttk.Frame):
 
     def init_draft_info(self):
         # Parse latest draft
-        with open(LOGFILE_PATH, "r",encoding="utf-8") as f:
+        with open(self.logfile_path, "r",encoding="utf-8") as f:
             logs = f.readlines()
         self.draft = parse_through_draft_logs(logs)
 
@@ -155,6 +162,13 @@ class DraftViewerApp(ttk.Frame):
 
         changed = self.listener.poll()
         if changed:
+            # Check if we are on the last index
+            if self.current_index is not None and self.current_index >= len(self.indices) - 1:
+                on_last_pack = True
+            else:
+                on_last_pack = False
+
+            # Update draft
             self.draft = self.listener.draft
 
             # Check if the expansion changed
@@ -168,8 +182,11 @@ class DraftViewerApp(ttk.Frame):
                 else []
             )
 
-            # If we're past the end (e.g. a new draft started), jump to the newest pick.
-            if (
+            # If we were on the last index before, keep us on the last (now different pack)
+            if on_last_pack:
+                self.current_index = max(len(self.indices) - 1, 0)
+            elif (
+                # If we're past the end (e.g. a new draft started), jump to the newest pick.
                 self.current_index is None
                 or self.current_index >= len(self.indices)
             ):

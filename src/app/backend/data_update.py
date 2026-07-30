@@ -221,6 +221,12 @@ class UpdateDataPage(ttk.Frame):
 
         success = pull_cards_data()
 
+        date = get_cards_data_as_of()
+        if 'date' in date.keys():
+            self.card_date_label.config(
+                text=date['date']
+            )
+
         self.status_label.config(
             text=(
                 "✓ Cards updated"
@@ -232,7 +238,7 @@ class UpdateDataPage(ttk.Frame):
             text="Update Cards",
             state="normal"
         )
-
+        self.update_idletasks() 
 
 
     def update_winrates(self):
@@ -267,3 +273,4 @@ class UpdateDataPage(ttk.Frame):
             text="Update Winrates",
             state="normal"
         )
+        self.update_idletasks() 

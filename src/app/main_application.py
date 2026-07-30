@@ -5,11 +5,20 @@ from src.app.backend.draft_tracker_page import DraftViewerApp
 from src.app.backend.data_update import UpdateDataPage
 from src.app.frontend.style import configure_style
 
+import argparse
 import os
 
 class MainApp:
-    def __init__(self, root):
+    def __init__(
+        self, 
+        root, 
+        test_mode: bool = False
+    ):
         self.root = root
+        self.test_mode = test_mode
+
+        if self.test_mode:
+            print(f'Running in test mode.')
 
         self.root.title("MTGA Helper")
         self.root.geometry("700x800")
@@ -70,7 +79,8 @@ class MainApp:
         self.clear_frame()
         DraftViewerApp(
             self.container,
-            self.show_menu
+            self.show_menu,
+            test_mode=self.test_mode
         )
 
     def show_update_page(self):
@@ -82,9 +92,20 @@ class MainApp:
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description='Application to track MTGA drafts and display 17lands card winrate data.'
+    )
+    parser.add_argument(
+        '-t', '--test',
+        action='store_true',
+        default=False,
+        help='Pass to put application in test mode'
+    )
+    args = parser.parse_args()
+
     # Make data folder if it doesnt exist
     os.makedirs('data', exist_ok=True)
 
     root = tk.Tk()
-    app = MainApp(root)
+    app = MainApp(root, test_mode=args.test)
     root.mainloop()
