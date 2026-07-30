@@ -15,10 +15,11 @@ class DraftTracker:
         self.seen = {}
         self.pick_two = pick_two
         self.expansion = expansion
+        self.ended = False
 
     def __str__(self):
         lines = [
-            f"DraftTracker(pick_two={self.pick_two}, expansion={self.expansion})",
+            f"DraftTracker(pick_two={self.pick_two}, expansion={self.expansion}, completed={self.ended})",
             f"  Seen entries: {len(self.seen)}",
             f"  Pick entries: {len(self.picks)}",
         ]

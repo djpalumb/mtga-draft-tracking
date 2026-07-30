@@ -11,7 +11,11 @@ from src.utils.pull_17lands_data import (
     get_cards_data_as_of
 )
 
-from src.utils.logfile_parser import parse_through_draft_logs
+from src.utils.logfile_parser import (
+    parse_through_draft_logs,
+    DraftLogListener
+)
+
 LOGFILE_PATH = os.path.join(
     os.path.expanduser("~"),
     "AppData",
@@ -20,7 +24,7 @@ LOGFILE_PATH = os.path.join(
     "MTGA",
     "Player.log"
 )
-LOGFILE_PATH = 'test_files\\sample_draft_logs.txt'
+LOGFILE_PATH = 'test_files\\sample_draft_logs.log'
 # TODO: remove test logfile path
 
 COLOR_MAP = {
@@ -89,6 +93,28 @@ class DraftViewerApp(ttk.Frame):
 
         # Build panel
         self.refresh()
+        
+        # Setup listener
+        self.listener = DraftLogListener(
+            LOGFILE_PATH,
+            self.draft,
+        )
+        self.listener_running = True
+
+        self.after(250, self.check_log_updates)
+
+
+    def set_card_winrate_info(self):
+        try:
+            self.card_winrate_file = get_most_recent_winrate_files()[self.draft_expansion]
+
+            # Get cutoffs
+            self.grade_cutoffs = get_winrate_grade_cutoffs(
+                self.card_winrate_file
+            )
+        except Exception as e:
+            self.card_winrate_file = None
+            self.grade_cutoffs = None
 
 
     def init_draft_info(self):
@@ -103,10 +129,9 @@ class DraftViewerApp(ttk.Frame):
             if self.draft
             else []
         )
-
         # Get the current ind
         self.current_index = (
-            len(self.indices)-1
+            max(len(self.indices) - 1, 0)
             if self.indices
             else None
         )
@@ -121,16 +146,38 @@ class DraftViewerApp(ttk.Frame):
             if self.draft_expansion is None:
                 self.card_winrate_file = None
             else:
-                try:
-                    self.card_winrate_file = get_most_recent_winrate_files()[self.draft_expansion]
+                self.set_card_winrate_info()
 
-                    # Get cutoffs
-                    self.grade_cutoffs = get_winrate_grade_cutoffs(
-                        self.card_winrate_file
-                    )
-                except Exception as e:
-                    self.card_winrate_file = None
-                    self.grade_cutoffs = None
+    def check_log_updates(self):
+        # Page has been destroyed
+        if not self.listener_running:
+            return
+
+        changed = self.listener.poll()
+        if changed:
+            self.draft = self.listener.draft
+
+            # Check if the expansion changed
+            if self.draft_expansion != self.draft.expansion:
+                self.draft_expansion = self.draft.expansion
+                self.set_card_winrate_info()
+
+            self.indices = (
+                sorted(self.draft.seen.keys())
+                if self.draft
+                else []
+            )
+
+            # If we're past the end (e.g. a new draft started), jump to the newest pick.
+            if (
+                self.current_index is None
+                or self.current_index >= len(self.indices)
+            ):
+                self.current_index = max(len(self.indices) - 1, 0)
+
+            self.refresh()
+
+        self.after(250, self.check_log_updates)
 
     # Function to display previous pick from what is currently showing
     def prev_pick(self):
@@ -147,6 +194,25 @@ class DraftViewerApp(ttk.Frame):
             self.current_index += 1
             self.refresh()
 
+    # Skip ahead to current (last) pick
+    def current_pick(self):
+        if self.indices:
+            self.current_index = len(self.indices) - 1
+            self.refresh()
+
+    def back(self):
+        # Go back to menu
+        self.listener_running = False
+        self.listener.close()
+
+        self.show_menu()
+
+    def destroy(self):
+        # On application end, cleanup listener
+        self.listener_running = False
+        if hasattr(self, "listener"):
+            self.listener.close()
+        super().destroy()
 
     # Function to build page
     def refresh(self):
@@ -209,13 +275,31 @@ class DraftViewerApp(ttk.Frame):
             ).pack()
 
             return
+        elif self.current_index >= len(self.indices):
+            if len(self.indices) == 0:
+                ttk.Label(
+                self,
+                    text="Waiting for draft to start",
+                    style="TLabel"
+                ).pack(pady=30)
+    
+                ttk.Button(
+                    self,
+                    text="Back",
+                    command=self.show_menu
+                ).pack()
+
+                return
+            else:
+                self.current_index = len(self.indices) - 1
 
         ########################################
         ## Panel Info
         ########################################
 
-        pack, pick = self.indices[self.current_index]
-
+        current_pack, current_pick = self.indices[self.current_index]
+        latest_pack, latest_pick = self.indices[-1]
+        
         ttk.Label(
             self,
             text="Draft Viewer",
@@ -234,10 +318,14 @@ class DraftViewerApp(ttk.Frame):
 
         ttk.Label(
             self,
-            text=f"Pack {pack} • Pick {pick}"
+            text=(
+                f"Viewing: Pack {current_pack} • Pick {current_pick}"
+                f"    |    "
+                f"Current: Pack {latest_pack} • Pick {latest_pick}"
+            ),
         ).pack(
             anchor="c",
-            pady=0
+            pady=0,
         )
 
         nav = ttk.Frame(self)
@@ -269,16 +357,32 @@ class DraftViewerApp(ttk.Frame):
             pady=10
         )
 
+        state = (
+            "disabled"
+            if self.current_index == len(self.indices) - 1
+            else "normal"
+        )
+
+        ttk.Button(
+            nav,
+            text="Go to Current",
+            command=self.current_pick,
+            state=state,
+        ).pack(
+            side="left",
+            padx=5,
+            pady=10
+        )
 
         ########################################
         ## Pack Cards
         ########################################
 
-        seen = self.draft.get_seen(pack,pick)
-        picked = self.draft.get_pick(pack,pick)
+        seen = self.draft.get_seen(current_pack, current_pick)
+        picked = self.draft.get_pick(current_pack, current_pick)
         missing = self.draft.get_known_missing(
-            pack,
-            pick
+            current_pack,
+            current_pick
         )
 
         df = get_cards_winrate_by_id(
@@ -388,7 +492,7 @@ class DraftViewerApp(ttk.Frame):
         ttk.Button(
             self,
             text="Back",
-            command=self.show_menu
+            command=self.back
         ).pack(
             pady=5
         )

@@ -20,6 +20,17 @@ def check_start_of_draft_line(logfile_str: str):
     else:
         return None
 
+def find_last_draft_in_log_file(logfile_str_lines: List[str]):
+    for i, row in enumerate(logfile_str_lines[::-1]):
+        ret_set = check_start_of_draft_line(row)
+        if ret_set is None:
+            continue
+        else:
+            return i, ret_set
+
+    return None, None
+
+
 def check_for_seen_line(logfile_str: str):
     pattern = r'\[UnityCrossThreadLogger\]Draft.Notify {.*\"SelfPick\":(\d*),\"SelfPack\":(\d),\"PackCards\":\"([\d\,]*)\"}'
     matches = re.findall(pattern, logfile_str, re.DOTALL | re.IGNORECASE)
@@ -43,16 +54,55 @@ def check_draft_complete_line(logfile_str: str):
         return True
     else:
         return False
+    
 
-def find_last_draft_in_log_file(logfile_str_lines: List[str]):
-    for i, row in enumerate(logfile_str_lines[::-1]):
-        ret_set = check_start_of_draft_line(row)
-        if ret_set is None:
-            continue
-        else:
-            return i, ret_set
+def process_logfile_line(draft: DraftTracker | None, line: str):
+    """
+    Processes a single new log line.
 
-    return None, None
+    Returns the current draft object (which may be newly created or None).
+    As well as information on if the draft changed.
+    """
+
+    # New draft
+    ret_set = check_start_of_draft_line(line)
+    if ret_set is not None:
+        draft = DraftTracker(
+            expansion=ret_set.strip(),
+            pick_two='PickTwoDraft' in line
+        )
+        return draft, True
+
+    if draft is None:
+        return None, False
+
+    # Draft complete
+    if check_draft_complete_line(line):
+        draft.ended = True
+        return draft, True
+
+    update = False
+
+    # Seen
+    matches = check_for_seen_line(line)
+    if matches:
+        pick = int(matches[0])
+        pack = int(matches[1])
+        ids = [int(x) for x in matches[2].split(',')]
+        draft.add_seen(pack, pick, ids)
+        update = True
+
+    # Pick
+    matches = check_for_pick_line(line)
+    if matches:
+        pick = int(matches[2])
+        pack = int(matches[1])
+        ids = [int(x) for x in matches[0].split(',')]
+        draft.add_pick(pack, pick, ids)
+        update = True
+
+    return draft, update
+
 
 def parse_through_draft_logs(logfile_str_lines: List[str], max_lines: int = 200) -> DraftTracker:
     # Find the start of the last draft
@@ -68,37 +118,20 @@ def parse_through_draft_logs(logfile_str_lines: List[str], max_lines: int = 200)
     else:
         pick_two = False
 
-
-
     # Create a draft object to keep track of logs
     draft = DraftTracker(
         expansion=ret_set, 
         pick_two=pick_two
     )
 
+    # Parsed start of draft line already
     lines_parsed = 1
 
     # parse lines, looking for seen and pick lines
     for line in logfile_str_lines[draft_start_forward_ind+1:]:
-        # Check if draft complete line
-        if check_draft_complete_line(line):
+        draft, _ = process_logfile_line(draft, line)
+        if draft.ended == True:
             return draft
-
-        # Check if "seen" line
-        matches = check_for_seen_line(line)
-        if matches is not None:
-            pick = int(matches[0])
-            pack = int(matches[1])
-            ids = [int(x) for x in matches[2].split(',')]
-            draft.add_seen(pack, pick, ids)
-
-        # Check if "pick" line
-        matches = check_for_pick_line(line)
-        if matches is not None:
-            pick = int(matches[2])
-            pack = int(matches[1])
-            ids = [int(x) for x in matches[0].split(',')]
-            draft.add_pick(pack, pick, ids)
 
         lines_parsed += 1
         if lines_parsed >= max_lines:
@@ -108,8 +141,42 @@ def parse_through_draft_logs(logfile_str_lines: List[str], max_lines: int = 200)
     return draft
 
 
+class DraftLogListener:
+    def __init__(self, logfile_path: str, draft: DraftTracker | None):
+        self.draft = draft
+
+        self.file = open(logfile_path, "r", encoding="utf-8")
+
+        # Start listening only for future writes
+        self.file.seek(0, os.SEEK_END)
+
+    def poll(self) -> bool:
+        """
+        Processes any newly-written log lines.
+
+        Returns True if the draft changed.
+        """
+
+        changed = False
+
+        while True:
+            line = self.file.readline()
+
+            # No more data currently available
+            if not line:
+                break
+
+            self.draft, updated = process_logfile_line(self.draft, line)
+            changed |= updated
+
+        return changed
+
+    def close(self):
+        self.file.close()
+
+
 if __name__ == '__main__':
-    logfile_path = os.path.join('test_files', 'sample_draft_logs.txt')    
+    logfile_path = os.path.join('test_files', 'sample_draft_logs.log')    
     with open(logfile_path, 'r', encoding='utf-8') as f:
         logfile_str_lines = f.readlines()
 
