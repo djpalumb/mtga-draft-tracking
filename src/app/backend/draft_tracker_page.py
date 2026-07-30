@@ -4,11 +4,13 @@ import os
 
 from src.utils.winrates import (
     get_cards_winrate_by_id,
-    get_winrate_grade_cutoffs,
-    CARD_WINRATE_FILEPATH_MSH,
+    get_winrate_grade_cutoffs
+)
+from src.utils.pull_17lands_data import (
+    get_most_recent_winrate_files,
+    get_cards_data_as_of
 )
 
-from src.utils.pull_17lands_data import get_cards_data_as_of
 from src.utils.logfile_parser import parse_through_draft_logs
 LOGFILE_PATH = os.path.join(
     os.path.expanduser("~"),
@@ -77,17 +79,23 @@ class DraftViewerApp(ttk.Frame):
             pady=20
         )
 
-        # Get cutoffs
-        self.grade_cutoffs = get_winrate_grade_cutoffs(
-            CARD_WINRATE_FILEPATH_MSH
-        )
-        self.cards_filepath = get_cards_data_as_of()["filepath"]
+        # Get Cards
+        try:
+            self.cards_filepath = get_cards_data_as_of()["filepath"]
+        except Exception as e:
+            self.cards_filepath = None
 
+        self.init_draft_info()
+
+        # Build panel
+        self.refresh()
+
+
+    def init_draft_info(self):
         # Parse latest draft
         with open(LOGFILE_PATH, "r",encoding="utf-8") as f:
             logs = f.readlines()
         self.draft = parse_through_draft_logs(logs)
-
 
         # Get all of the draft picks numbers in order
         self.indices = (
@@ -103,9 +111,26 @@ class DraftViewerApp(ttk.Frame):
             else None
         )
 
-        # Build panel
-        self.refresh()
+        # Get set information
+        if self.draft is None:
+            self.draft_expansion = None
+            self.card_winrate_file = None
+        else:
+            self.draft_expansion = self.draft.expansion
 
+            if self.draft_expansion is None:
+                self.card_winrate_file = None
+            else:
+                try:
+                    self.card_winrate_file = get_most_recent_winrate_files()[self.draft_expansion]
+
+                    # Get cutoffs
+                    self.grade_cutoffs = get_winrate_grade_cutoffs(
+                        self.card_winrate_file
+                    )
+                except Exception as e:
+                    self.card_winrate_file = None
+                    self.grade_cutoffs = None
 
     # Function to display previous pick from what is currently showing
     def prev_pick(self):
@@ -142,6 +167,48 @@ class DraftViewerApp(ttk.Frame):
             ).pack()
 
             return
+        elif self.draft_expansion is None:
+            ttk.Label(
+                self,
+                text="Unable to determine draft expansion set",
+                style="TLabel"
+            ).pack(pady=30)
+
+            ttk.Button(
+                self,
+                text="Back",
+                command=self.show_menu
+            ).pack()
+
+            return
+        elif self.card_winrate_file is None:
+            ttk.Label(
+                self,
+                text=f"No card winrate file found for draft expansion: {self.draft_expansion}",
+                style="TLabel"
+            ).pack(pady=30)
+
+            ttk.Button(
+                self,
+                text="Back",
+                command=self.show_menu
+            ).pack()
+
+            return
+        elif self.cards_filepath is None:
+            ttk.Label(
+                self,
+                text="Unable to find card reference file, please download on other page.",
+                style="TLabel"
+            ).pack(pady=30)
+
+            ttk.Button(
+                self,
+                text="Back",
+                command=self.show_menu
+            ).pack()
+
+            return
 
         ########################################
         ## Panel Info
@@ -155,6 +222,14 @@ class DraftViewerApp(ttk.Frame):
             style="Title.TLabel"
         ).pack(
             anchor="c"
+        )
+
+        ttk.Label(
+            self,
+            text=f"Set: {self.draft_expansion}"
+        ).pack(
+            anchor="c",
+            pady=0
         )
 
         ttk.Label(
@@ -208,7 +283,8 @@ class DraftViewerApp(ttk.Frame):
 
         df = get_cards_winrate_by_id(
             seen,
-            self.cards_filepath
+            card_ids_ref_filepath=self.cards_filepath,
+            card_winrate_ref_filepath=self.card_winrate_file
         )
 
         df = df.sort_values(
@@ -281,7 +357,8 @@ class DraftViewerApp(ttk.Frame):
 
             missing_df = get_cards_winrate_by_id(
                 missing,
-                self.cards_filepath
+                card_ids_ref_filepath=self.cards_filepath,
+                card_winrate_ref_filepath=self.card_winrate_file
             )
             missing_df = missing_df.sort_values(
                 "GIH WR",
@@ -294,7 +371,7 @@ class DraftViewerApp(ttk.Frame):
                     row["GIH WR"],
                     self.grade_cutoffs
                 )
-                
+
                 self.card_row(
                     frame,
                     row["name"],

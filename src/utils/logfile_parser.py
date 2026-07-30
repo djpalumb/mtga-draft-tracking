@@ -9,9 +9,16 @@ def check_start_of_draft_line(logfile_str: str):
 
     matches = re.findall(pattern, logfile_str, re.DOTALL | re.IGNORECASE)
     if len(matches) > 0:
-        return True
+        # Determine set
+        set_pattern = r'\[UnityCrossThreadLogger\]==> EventJoin {.*\\"EventName\\":\\"\S*Draft_(.*)_'
+        set_matches = re.findall(set_pattern, logfile_str, re.DOTALL | re.IGNORECASE)
+        if len(set_matches) > 0:
+            return set_matches[0]
+        else:
+            # Unknown set
+            return ''
     else:
-        return False
+        return None
 
 def check_for_seen_line(logfile_str: str):
     pattern = r'\[UnityCrossThreadLogger\]Draft.Notify {.*\"SelfPick\":(\d*),\"SelfPack\":(\d),\"PackCards\":\"([\d\,]*)\"}'
@@ -39,14 +46,17 @@ def check_draft_complete_line(logfile_str: str):
 
 def find_last_draft_in_log_file(logfile_str_lines: List[str]):
     for i, row in enumerate(logfile_str_lines[::-1]):
-        if check_start_of_draft_line(row):
-            return i
+        ret_set = check_start_of_draft_line(row)
+        if ret_set is None:
+            continue
+        else:
+            return i, ret_set
 
-    return None
+    return None, None
 
 def parse_through_draft_logs(logfile_str_lines: List[str], max_lines: int = 200) -> DraftTracker:
     # Find the start of the last draft
-    draft_start_reverse_ind = find_last_draft_in_log_file(logfile_str_lines)
+    draft_start_reverse_ind, ret_set = find_last_draft_in_log_file(logfile_str_lines)
     if draft_start_reverse_ind is None:
         return None
 
@@ -58,8 +68,13 @@ def parse_through_draft_logs(logfile_str_lines: List[str], max_lines: int = 200)
     else:
         pick_two = False
 
+
+
     # Create a draft object to keep track of logs
-    draft = DraftTracker(pick_two)
+    draft = DraftTracker(
+        expansion=ret_set, 
+        pick_two=pick_two
+    )
 
     lines_parsed = 1
 

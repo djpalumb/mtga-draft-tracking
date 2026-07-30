@@ -6,6 +6,7 @@ from typing import List
 class DraftTracker:
     def __init__(
         self,
+        expansion: str,
         pick_two: bool = False,
     ):
         # Indexed with two ints (pack, pick), starting at 0
@@ -13,10 +14,11 @@ class DraftTracker:
         self.picks = {}
         self.seen = {}
         self.pick_two = pick_two
+        self.expansion = expansion
 
     def __str__(self):
         lines = [
-            f"DraftTracker(pick_two={self.pick_two})",
+            f"DraftTracker(pick_two={self.pick_two}, expansion={self.expansion})",
             f"  Seen entries: {len(self.seen)}",
             f"  Pick entries: {len(self.picks)}",
         ]

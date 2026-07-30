@@ -4,11 +4,6 @@ import sys
 from typing import List
 import re
 
-CARD_IDS_REF_FILEPATH = os.path.join('data', 'cards.csv')
-
-CARD_WINRATE_FILEPATH_MSH = os.path.join('data', 'card-ratings-MSH-2026-07-29.csv')
-
-
 def get_winrate_grade_cutoffs(
     filepath,
     min_games=2500,
@@ -54,7 +49,7 @@ def get_winrate_grade_cutoffs(
 
 def get_cards_winrate_by_name(
     card_names: List[str],
-    card_winrate_ref_filepath: str = CARD_WINRATE_FILEPATH_MSH,
+    card_winrate_ref_filepath: str,
     win_metric: str = 'GIH WR'
 ):
     """
@@ -101,8 +96,8 @@ def get_cards_winrate_by_name(
 
 def get_cards_winrate_by_id(
     card_ids: List[int],
-    card_ids_ref_filepath: str = CARD_IDS_REF_FILEPATH,
-    card_winrate_ref_filepath: str = CARD_WINRATE_FILEPATH_MSH,
+    card_ids_ref_filepath: str,
+    card_winrate_ref_filepath: str,
     win_metric: str = 'GIH WR'
 ):
 
@@ -148,6 +143,9 @@ def get_cards_winrate_by_id(
     return ret
 
 if __name__ == '__main__':
+    CARD_WINRATE_FILEPATH_MSH = os.path.join('data', 'card-ratings-MSH-2026-07-29.csv')
+    CARD_IDS_REF_FILEPATH = os.path.join('data', 'all-cards-2026-07-26.csv')
+
     # test
     test_log = os.path.join('test_files', 'sample_draft_logs.txt')
     with open(test_log, 'r') as f:
@@ -156,6 +154,10 @@ if __name__ == '__main__':
     matches = re.findall(r'"PackCards":"(.*)"\}', text)
     first_pack = [int(x) for x in matches[0].split(',')]
 
-    winrates_df = get_cards_winrate_by_id(first_pack)
+    winrates_df = get_cards_winrate_by_id(
+        first_pack,
+        card_ids_ref_filepath=CARD_IDS_REF_FILEPATH,
+        cards_winrate_ref_filepath=CARD_WINRATE_FILEPATH_MSH
+    )
     for i, row in winrates_df.iterrows():
         print(f'{row['name']}: {row['GIH WR']}')
