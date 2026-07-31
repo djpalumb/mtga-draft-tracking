@@ -10,7 +10,10 @@ from src.utils.pull_17lands_data import (
     get_cards_data_as_of,
     get_most_recent_winrate_files
 )
-
+from src.utils.pull_scryfall import (
+    get_scryfall_info,
+    get_scryfall_data_as_of
+)
 
 def pull_cards_data():
     today = datetime.now().strftime("%Y-%m-%d")
@@ -20,7 +23,14 @@ def pull_cards_data():
             f"all-cards-{today}.csv"
         )
     )
-
+def pull_scryfall_data():
+    today = datetime.now().strftime("%Y-%m-%d")
+    return get_scryfall_info(
+        os.path.join(
+            "data",
+            f"scryfall-cards-{today}.csv"
+        )
+    )
 
 def pull_cards_winrate(set_abv):
     return pull_cards_wr_table(
@@ -87,7 +97,6 @@ class UpdateDataPage(ttk.Frame):
         ).pack()
 
 
-
     def build_card_section(self):
         box = ttk.LabelFrame(
             self,
@@ -99,9 +108,13 @@ class UpdateDataPage(ttk.Frame):
             pady=10
         )
 
+        # -----------------------
+        # Current Arena card data
+        # -----------------------
+
         ttk.Label(
             box,
-            text="Current data:"
+            text="Current 17Lands Card Id data:"
         ).grid(
             row=0,
             column=0,
@@ -115,7 +128,8 @@ class UpdateDataPage(ttk.Frame):
         self.card_date_label.grid(
             row=0,
             column=1,
-            padx=10
+            padx=10,
+            sticky="w"
         )
 
         current = get_cards_data_as_of()
@@ -127,14 +141,55 @@ class UpdateDataPage(ttk.Frame):
 
         self.update_card_data_button = ttk.Button(
             box,
-            text="Update Cards",
+            text="Update 17Lands Cards",
             command=self.update_cards
         )
         self.update_card_data_button.grid(
             row=1,
             column=0,
             columnspan=2,
-            pady=15
+            pady=(10, 20)
+        )
+
+        # -----------------------
+        # Scryfall data
+        # -----------------------
+
+        ttk.Label(
+            box,
+            text="Current Scryfall Card Data:"
+        ).grid(
+            row=2,
+            column=0,
+            sticky="w"
+        )
+
+        self.scryfall_date_label = ttk.Label(
+            box,
+            text=""
+        )
+        self.scryfall_date_label.grid(
+            row=2,
+            column=1,
+            padx=10,
+            sticky="w"
+        )
+
+        scryfall_date = get_scryfall_data_as_of()
+        if scryfall_date:
+            self.scryfall_date_label.config(
+                text=current["date"]
+            )
+        self.update_scryfall_button = ttk.Button(
+            box,
+            text="Update Scryfall Cards",
+            command=self.update_scryfall
+        )
+        self.update_scryfall_button.grid(
+            row=3,
+            column=0,
+            columnspan=2,
+            pady=(10, 0)
         )
 
     def build_winrate_section(self):
@@ -235,10 +290,43 @@ class UpdateDataPage(ttk.Frame):
             )
         )
         self.update_card_data_button.config(
-            text="Update Cards",
+            text="Update 17Lands Cards",
             state="normal"
         )
         self.update_idletasks() 
+
+    def update_scryfall(self):
+        self.status_label.config(
+            text="Downloading card data..."
+        )
+
+        self.update_scryfall_button.config(
+            text="Downloading...",
+            state="disabled"
+        )
+        self.update_idletasks() 
+
+        success = pull_scryfall_data()
+
+        date = get_scryfall_data_as_of()
+        if 'date' in date.keys():
+            self.scryfall_date_label.config(
+                text=date['date']
+            )
+
+        self.status_label.config(
+            text=(
+                "✓ Cards updated"
+                if success
+                else "✗ Update failed"
+            )
+        )
+        self.update_scryfall_button.config(
+            text="Update Scryfall Cards",
+            state="normal"
+        )
+        self.update_idletasks() 
+
 
 
     def update_winrates(self):
