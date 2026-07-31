@@ -10,10 +10,12 @@ from src.utils.pull_17lands_data import (
     get_most_recent_winrate_files,
     get_cards_data_as_of
 )
-
 from src.utils.logfile_parser import (
     parse_through_draft_logs,
     DraftLogListener
+)
+from src.app.backend.components import (
+    card_row
 )
 
 LOGFILE_PATH = os.path.join(
@@ -25,34 +27,6 @@ LOGFILE_PATH = os.path.join(
     "Player.log"
 )
 TEST_LOGFILE_PATH = os.path.join('test_files','sample_draft_logs.log')
-
-COLOR_MAP = {
-    "U": "#6FA8DC",
-    "W": "#D8C48A",
-    "B": "#6B5B73",
-    "G": "#6FA36B",
-    "R": "#C96B5B",
-    "": "#9E9E9E",
-}
-MULTICOLOR = "#C9A227"
-
-GRADE_COLOR_MAP = {
-    "S": "#C35BC7",
-    "A": "#6FBF73",
-    "B": "#56A3D9",
-    "C": "#D2B35A",
-    "D": "#D18B5C",
-    "F": "#C66A6A",
-}
-
-def get_card_color(identity):
-    if identity is None or identity == "" or not isinstance(identity, str):
-        return COLOR_MAP[""]
-
-    if len(identity) > 1:
-        return MULTICOLOR
-
-    return COLOR_MAP.get(identity, "#FFFFFF")
 
 
 def get_winrate_grade(winrate, cutoffs):
@@ -68,10 +42,8 @@ def get_winrate_grade(winrate, cutoffs):
         return "D"
     else:
         return "F"
-    
 
 class DraftViewerApp(ttk.Frame):
-
     def __init__(
         self, 
         parent, 
@@ -89,6 +61,8 @@ class DraftViewerApp(ttk.Frame):
 
         self.test_mode = test_mode
         self.logfile_path = TEST_LOGFILE_PATH if self.test_mode else LOGFILE_PATH
+
+        print(self.logfile_path)
 
         # Get Cards
         try:
@@ -459,6 +433,7 @@ class DraftViewerApp(ttk.Frame):
                 row["GIH WR"],
                 row["color_identity"],
                 grade,
+                row["rarity"],
                 selected
             )
 
@@ -499,6 +474,7 @@ class DraftViewerApp(ttk.Frame):
                     row["GIH WR"],
                     row["color_identity"],
                     grade,
+                    row["rarity"],
                     False
                 )
 
@@ -522,82 +498,17 @@ class DraftViewerApp(ttk.Frame):
         wr,
         identity,
         grade,
+        rarity,
         picked
     ):
 
-        row = tk.Frame(
+        row = card_row.CardRow(
             parent,
-            bg="#1e1e1e"
+            name,
+            wr,
+            identity,
+            grade,
+            rarity,
+            picked
         )
-        row.pack(
-            fill="x",
-            pady=3
-        )
-
-        tk.Label(
-            row,
-            text=name,
-            bg=get_card_color(identity),
-            fg="black",
-            width=35,
-            anchor="w",
-            padx=8
-        ).pack(
-            side="left",
-            padx=(0,5)
-        )
-
-        if 'nan' in str(wr):
-            tk.Label(
-                row,
-                text=f"---",
-                width=10,
-                bg=GRADE_COLOR_MAP[grade],
-                fg="black"
-            ).pack(
-                side="left",
-                padx=5
-            )
-
-        else:
-            tk.Label(
-                row,
-                text=f"{wr:.1%}",
-                width=10,
-                bg=GRADE_COLOR_MAP[grade],
-                fg="black"
-            ).pack(
-                side="left",
-                padx=5
-            )
-
-        tk.Label(
-            row,
-            text=grade,
-            width=5,
-            bg=GRADE_COLOR_MAP[grade],
-            fg="black"
-        ).pack(
-            side="left"
-        )
-        
-        if picked:
-            tk.Label(
-                row,
-                text="★",
-                fg="#FFD700",
-                bg="#1e1e1e",
-                width=2,
-                font=("Segoe UI", 12, "bold")
-            ).pack(
-                side="left"
-            )
-        else:
-            tk.Label(
-                row,
-                text="",
-                width=2,
-                bg="#1e1e1e"
-            ).pack(
-                side="left"
-            )
+        row.pack(fill="x", pady=1)

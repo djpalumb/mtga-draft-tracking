@@ -1,6 +1,31 @@
 import tkinter as tk
 from tkinter import ttk
 
+CARD_COLOR_MAP = {
+    "U": "#6FA8DC",
+    "W": "#DAC9A3",
+    "B": "#6B5B73",
+    "G": "#6FA36B",
+    "R": "#C96B5B",
+    "":"#ADBBBB",
+    "MULTICOLOR": "#B18F1E"
+}
+RARITY_COLOR_MAP = {
+    "common": "#212121",      # black/dark gray
+    "uncommon": "#B9DCEB",    # silver
+    "rare": "#E6CD8C",        # gold
+    "mythic": "#F54C05",      # orange
+}
+
+GRADE_COLOR_MAP = {
+    "S": "#C35BC7",
+    "A": "#6FBF73",
+    "B": "#56A3D9",
+    "C": "#D2B35A",
+    "D": "#D18B5C",
+    "F": "#C66A6A",
+}
+
 def configure_style(application):
     style = ttk.Style()
     style.theme_use("clam")
