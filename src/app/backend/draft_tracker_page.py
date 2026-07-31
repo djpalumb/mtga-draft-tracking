@@ -10,6 +10,10 @@ from src.utils.pull_17lands_data import (
     get_most_recent_winrate_files,
     get_cards_data_as_of
 )
+from src.utils.pull_scryfall import(
+    get_scryfall_data_as_of,
+    get_card_mana_costs
+)
 from src.utils.logfile_parser import (
     parse_through_draft_logs,
     DraftLogListener
@@ -69,6 +73,12 @@ class DraftViewerApp(ttk.Frame):
             self.cards_filepath = get_cards_data_as_of()["filepath"]
         except Exception as e:
             self.cards_filepath = None
+
+        # Get scryfall info
+        try:
+            self.scryfall_filepath = get_scryfall_data_as_of()["filepath"]
+        except Exception as e:
+            self.scryfall_filepath = None
 
         self.init_draft_info()
 
@@ -376,15 +386,26 @@ class DraftViewerApp(ttk.Frame):
             current_pick
         )
 
+        # Get card winrates and mana costs
         df = get_cards_winrate_by_id(
             seen,
             card_ids_ref_filepath=self.cards_filepath,
             card_winrate_ref_filepath=self.card_winrate_file
         )
-
         df = df.sort_values(
             "GIH WR",
             ascending=False
+        )
+
+        cost_df = get_card_mana_costs(
+            df['name'].to_list(),
+            scryfall_data_filepath=self.scryfall_filepath
+        )[['name', 'mana_cost']]
+
+        df = df.merge(
+            cost_df,
+            on='name',
+            how='left'
         )
 
         self.scroll = tk.Canvas(
@@ -434,7 +455,8 @@ class DraftViewerApp(ttk.Frame):
                 row["color_identity"],
                 grade,
                 row["rarity"],
-                selected
+                selected,
+                row["mana_cost"]
             )
 
         ########################################
@@ -462,6 +484,17 @@ class DraftViewerApp(ttk.Frame):
                 ignore_index=True
             )
 
+            missing_cost_df = get_card_mana_costs(
+                missing_df['name'].to_list(),
+                scryfall_data_filepath=self.scryfall_filepath
+            )[['name', 'mana_cost']]
+    
+            missing_df = missing_df.merge(
+                missing_cost_df,
+                on='name',
+                how='left'
+            )
+
             for _, row in missing_df.iterrows():
                 grade = get_winrate_grade(
                     row["GIH WR"],
@@ -475,7 +508,8 @@ class DraftViewerApp(ttk.Frame):
                     row["color_identity"],
                     grade,
                     row["rarity"],
-                    False
+                    False,
+                    row["mana_cost"]
                 )
 
         ########################################
@@ -499,7 +533,8 @@ class DraftViewerApp(ttk.Frame):
         identity,
         grade,
         rarity,
-        picked
+        picked,
+        mana_cost
     ):
 
         row = card_row.CardRow(
@@ -509,6 +544,7 @@ class DraftViewerApp(ttk.Frame):
             identity,
             grade,
             rarity,
-            picked
+            picked,
+            mana_cost
         )
         row.pack(fill="x", pady=1)

@@ -7,6 +7,30 @@ import json
 import requests
 from datetime import datetime
 import re
+from typing import List
+
+
+def get_card_mana_costs(
+    card_name_list: List[str],
+    scryfall_data_filepath: str
+):
+    df = pd.DataFrame({"name": card_name_list})
+
+    if scryfall_data_filepath is None:
+        df['mana_cost'] = ''
+        return 
+    
+    # Load file 
+    scryfall_df = pd.read_csv(scryfall_data_filepath)
+
+    # Merge
+    df = df.merge(
+        right=scryfall_df,
+        on='name',
+        how='left'
+    )
+
+    return df[['name','mana_cost']]
 
 
 def get_scryfall_data_as_of(data_dir="data"):

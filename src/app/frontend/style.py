@@ -2,14 +2,15 @@ import tkinter as tk
 from tkinter import ttk
 
 CARD_COLOR_MAP = {
-    "U": "#6FA8DC",
-    "W": "#DAC9A3",
+    "U": "#5297D6",
+    "W": "#BDAF91",
     "B": "#6B5B73",
     "G": "#6FA36B",
     "R": "#C96B5B",
-    "":"#ADBBBB",
+    "":"#CAD1D1",
     "MULTICOLOR": "#B18F1E"
 }
+
 RARITY_COLOR_MAP = {
     "common": "#212121",      # black/dark gray
     "uncommon": "#B9DCEB",    # silver
