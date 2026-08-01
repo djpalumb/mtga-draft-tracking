@@ -18,7 +18,7 @@ from src.utils.logfile_parser import (
     parse_through_draft_logs,
     DraftLogListener
 )
-from src.app.backend.components import (
+from src.app.components import (
     card_row
 )
 
@@ -48,6 +48,13 @@ def get_winrate_grade(winrate, cutoffs):
         return "F"
 
 class DraftViewerApp(ttk.Frame):
+    """Main draft tracking interface for MTGA.
+
+    Monitors the MTGA Player.log file for draft events,
+    determines the current pack/pick state, and displays
+    card recommendations using 17Lands winrate data and
+    Scryfall metadata.
+    """
     def __init__(
         self, 
         parent, 

@@ -1,10 +1,21 @@
+"""
+Utilities for parsing MTGA draft logs.
+
+This module converts raw MTGA Unity logs into DraftTracker updates.
+
+Supported events:
+- EventJoin: detects draft start and expansion
+- Draft.Notify: captures cards currently seen in a pack
+- EventPlayerDraftMakePick: captures completed picks
+- DraftCompleteDraft: detects draft completion
+"""
+
 import os
-import pandas
 import re
 from typing import List
 from src.utils.draft_tracking import DraftTracker
 
-def check_start_of_draft_line(logfile_str: str):
+def check_start_of_draft_line(logfile_str: str) -> str | None:
     pattern = r'\[UnityCrossThreadLogger\]==> EventJoin {.*\\"EventName\\":\\"\S*Draft'
 
     matches = re.findall(pattern, logfile_str, re.DOTALL | re.IGNORECASE)
@@ -21,6 +32,7 @@ def check_start_of_draft_line(logfile_str: str):
         return None
 
 def find_last_draft_in_log_file(logfile_str_lines: List[str]):
+    # Parse in inverse order to find the latest draft in file
     for i, row in enumerate(logfile_str_lines[::-1]):
         ret_set = check_start_of_draft_line(row)
         if ret_set is None:
@@ -30,8 +42,7 @@ def find_last_draft_in_log_file(logfile_str_lines: List[str]):
 
     return None, None
 
-
-def check_for_seen_line(logfile_str: str):
+def check_for_seen_line(logfile_str: str) -> tuple[str, str, str] | None:
     pattern = r'\[UnityCrossThreadLogger\]Draft.Notify {.*\"SelfPick\":(\d*),\"SelfPack\":(\d),\"PackCards\":\"([\d\,]*)\"}'
     matches = re.findall(pattern, logfile_str, re.DOTALL | re.IGNORECASE)
     if len(matches) > 0:
@@ -58,10 +69,15 @@ def check_draft_complete_line(logfile_str: str):
 
 def process_logfile_line(draft: DraftTracker | None, line: str):
     """
-    Processes a single new log line.
+    Process a single MTGA log line and update draft state.
 
-    Returns the current draft object (which may be newly created or None).
-    As well as information on if the draft changed.
+    A new DraftTracker is created when a draft start event is found.
+    Existing drafts are updated when card seen/pick events occur.
+
+    Returns:
+        Tuple containing:
+            - Updated DraftTracker object
+            - Whether the draft state changed
     """
 
     # New draft
@@ -105,6 +121,18 @@ def process_logfile_line(draft: DraftTracker | None, line: str):
 
 
 def parse_through_draft_logs(logfile_str_lines: List[str], max_lines: int = 200) -> DraftTracker:
+    """
+    Reconstruct the current draft state from historical MTGA logs.
+
+    Only the most recent draft in the log file is considered.
+
+    Args:
+        logfile_str_lines: MTGA log file contents.
+        max_lines: Safety limit to prevent scanning indefinitely.
+
+    Returns:
+        DraftTracker representing the current or completed draft.
+    """
     # Find the start of the last draft
     draft_start_reverse_ind, ret_set = find_last_draft_in_log_file(logfile_str_lines)
     if draft_start_reverse_ind is None:
@@ -130,7 +158,7 @@ def parse_through_draft_logs(logfile_str_lines: List[str], max_lines: int = 200)
     # parse lines, looking for seen and pick lines
     for line in logfile_str_lines[draft_start_forward_ind+1:]:
         draft, _ = process_logfile_line(draft, line)
-        if draft.ended == True:
+        if draft.ended:
             return draft
 
         lines_parsed += 1

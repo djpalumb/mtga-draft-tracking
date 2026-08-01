@@ -16,6 +16,7 @@ from src.utils.pull_scryfall import (
 )
 
 def pull_cards_data():
+    """Download the latest 17Lands card ID data and save locally."""
     today = datetime.now().strftime("%Y-%m-%d")
     return pull_all_cardlist(
         os.path.join(
@@ -24,6 +25,7 @@ def pull_cards_data():
         )
     )
 def pull_scryfall_data():
+    """Download the latest Scryfall card metadata and save locally."""
     today = datetime.now().strftime("%Y-%m-%d")
     return get_scryfall_info(
         os.path.join(
@@ -33,6 +35,7 @@ def pull_scryfall_data():
     )
 
 def pull_cards_winrate(set_abv):
+    """Download card winrate data for a specific MTGA set."""
     return pull_cards_wr_table(
         expansion=set_abv,
         output_name=(
@@ -42,6 +45,13 @@ def pull_cards_winrate(set_abv):
 
 
 class UpdateDataPage(ttk.Frame):
+    """GUI page for downloading and managing external card data.
+
+    Provides controls for updating:
+    - 17Lands card identifiers
+    - Scryfall card metadata
+    - 17Lands winrate tables
+    """
     def __init__(self, parent, show_menu):
         super().__init__(parent)
         self.show_menu = show_menu
@@ -55,6 +65,7 @@ class UpdateDataPage(ttk.Frame):
 
 
     def refresh_winrate_table(self):
+        """Refresh displayed winrate files from local storage."""
         # Clear existing rows
         for item in self.wr_table.get_children():
             self.wr_table.delete(item)
@@ -68,7 +79,7 @@ class UpdateDataPage(ttk.Frame):
             self.wr_table.insert("", "end", values=(set_name, date))
 
     def build_ui(self):
-
+        """Construct all widgets on the update page."""
         ttk.Label(
             self,
             text="Update Data",
@@ -98,6 +109,7 @@ class UpdateDataPage(ttk.Frame):
 
 
     def build_card_section(self):
+        """UI Section where user downloads 17lands and scryfall cardlists"""
         box = ttk.LabelFrame(
             self,
             text=" Card Data ",
@@ -178,7 +190,7 @@ class UpdateDataPage(ttk.Frame):
         scryfall_date = get_scryfall_data_as_of()
         if scryfall_date:
             self.scryfall_date_label.config(
-                text=current["date"]
+                text=scryfall_date["date"]
             )
         self.update_scryfall_button = ttk.Button(
             box,
@@ -193,6 +205,7 @@ class UpdateDataPage(ttk.Frame):
         )
 
     def build_winrate_section(self):
+        """UI Section where user downloads 17lands card winrate data"""
         box = ttk.LabelFrame(
             self,
             text=" Winrate Data ",
@@ -326,8 +339,6 @@ class UpdateDataPage(ttk.Frame):
             state="normal"
         )
         self.update_idletasks() 
-
-
 
     def update_winrates(self):
         print('Running update winrates...')

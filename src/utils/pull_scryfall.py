@@ -14,40 +14,49 @@ def get_card_mana_costs(
     card_name_list: List[str],
     scryfall_data_filepath: str
 ):
+    """
+    Retrieve mana costs for a list of Magic cards.
+
+    Args:
+        card_name_list: List of card names to lookup.
+        scryfall_data_filepath: Path to the Scryfall card CSV export.
+
+    Returns:
+        DataFrame containing card names and mana costs.
+        If no Scryfall file is provided, returns the cards with empty
+        mana cost values.
+    """
+
     df = pd.DataFrame({"name": card_name_list})
 
     if scryfall_data_filepath is None:
-        df['mana_cost'] = ''
-        return 
-    
-    # Load file 
+        df["mana_cost"] = ""
+        return df[["name", "mana_cost"]]
+
     scryfall_df = pd.read_csv(scryfall_data_filepath)
 
-    # Merge
     df = df.merge(
-        right=scryfall_df,
-        on='name',
-        how='left'
+        scryfall_df,
+        on="name",
+        how="left"
     )
 
-    return df[['name','mana_cost']]
+    return df[["name", "mana_cost"]]
 
 
 def get_scryfall_data_as_of(data_dir="data"):
     """
-    Determine the most recent scryfall cards data file.
+    Find the newest Scryfall card CSV export in a directory.
 
-    Looks for files named:
-        scryfall-cards-{yyyy-mm-dd}.csv
+    Expected filename format:
+        scryfall-cards-YYYY-MM-DD.csv
 
     Returns:
-        dict:
-        {
-            "date": "2026-07-29",
-            "filepath": "data/scryfall-cards-MSH-2026-07-29.csv"
-        }
+        Dictionary containing:
+            date: Date string of newest dataset.
+            filepath: Path to newest CSV file.
 
-        Returns None if no matching file exists.
+        Returns None if no Scryfall CSV files are found.
     """
 
     pattern = re.compile(
@@ -86,6 +95,13 @@ def get_scryfall_info(
     url: str = 'https://api.scryfall.com/bulk-data',
     download_gzip_outfile:str = os.path.join('data', 'scryfall_cards.jsonl.gz')
 ):
+    """
+    Download Scryfall's latest Oracle Cards bulk dataset and convert it
+    into a simplified CSV used by the draft tracker.
+
+    The generated CSV contains card metadata needed by the overlay,
+    including mana costs, colors, rarity, and card text.
+    """
     
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',

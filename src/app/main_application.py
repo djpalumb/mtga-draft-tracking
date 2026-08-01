@@ -1,17 +1,21 @@
+import argparse
+import os
 import tkinter as tk
 from tkinter import ttk
 
-from src.app.backend.draft_tracker_page import DraftViewerApp
-from src.app.backend.data_update import UpdateDataPage
-from src.app.frontend.style import configure_style
-
-import argparse
-import os
+from src.app.pages.data_update import UpdateDataPage
+from src.app.pages.draft_tracker_page import DraftViewerApp
+from src.app.style import configure_style
 
 class MainApp:
+    """Main application controller for the MTGA Helper GUI.
+
+    Handles navigation between application pages and manages
+    shared application state such as test mode.
+    """
     def __init__(
         self, 
-        root, 
+        root: tk.Tk, 
         test_mode: bool = False
     ):
         self.root = root
@@ -36,11 +40,13 @@ class MainApp:
 
 
     def clear_frame(self):
+        """Remove all widgets from the current application page."""
         for widget in self.container.winfo_children():
             widget.destroy()
 
 
     def show_menu(self):
+        """Display the main navigation menu."""
         self.clear_frame()
         frame = ttk.Frame(self.container)
         frame.pack(expand=True)
@@ -76,6 +82,7 @@ class MainApp:
 
 
     def show_draft_tracker(self):
+        """Open the draft tracking interface."""
         self.clear_frame()
         DraftViewerApp(
             self.container,
@@ -84,6 +91,7 @@ class MainApp:
         )
 
     def show_update_page(self):
+        """Open the data update interface."""
         self.clear_frame()
         UpdateDataPage(
             self.container,

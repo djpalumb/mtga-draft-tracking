@@ -1,9 +1,22 @@
-import pandas as pd
 from collections import Counter
-import os
 from typing import List
 
 class DraftTracker:
+    """
+    Tracks the state of an MTGA draft.
+
+    Stores:
+        - Cards seen at each draft pick
+        - Cards selected at each draft pick
+        - Draft metadata (set, format)
+
+    Pack and pick indexes are zero-based internally:
+        pack=0, pick=0 represents Pack 1 Pick 1 in MTGA.
+
+    MTGA logs use one-based indexing, so conversion happens
+    during log parsing.
+    """
+    
     def __init__(
         self,
         expansion: str,
@@ -11,8 +24,8 @@ class DraftTracker:
     ):
         # Indexed with two ints (pack, pick), starting at 0
         # Note, logfile starts at 1
-        self.picks = {}
-        self.seen = {}
+        self.picks: dict[tuple[int, int], int | list[int]] = {}
+        self.seen: dict[tuple[int, int], list[int]] = {}
         self.pick_two = pick_two
         self.expansion = expansion
         self.ended = False
@@ -72,6 +85,8 @@ class DraftTracker:
         pick: int,
         card_ids_selected: List[int]
     ):
+        # PickTwo drafts return multiple selected cards per pick.
+        # Normal drafts only store the single selected card.
         if self.pick_two:
             self.picks[(pack, pick)] = card_ids_selected[0:2]
         else:
@@ -107,8 +122,14 @@ class DraftTracker:
         pick: int
     ):
         """
-        If this pack is a wheel pack, determine cards that disappeared
-        since the last time this player saw the pack.
+        Determine cards missing from a pack when it wheels.
+
+        In normal drafts, a player sees the same pack again after
+        8 picks. PickTwo drafts return after 4 picks.
+
+        The difference between the two observations shows which cards
+        were taken by other players. Cards personally selected by this
+        player are removed from the result.
         """
 
         if self.pick_two:

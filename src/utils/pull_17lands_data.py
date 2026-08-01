@@ -252,8 +252,6 @@ def pull_cards_wr_table(
 
 
 if __name__ == '__main__':
-    # pull_all_cardlist('test.csv')
-
     expansion_code = 'MSH'
     today = datetime.now().strftime("%Y-%m-%d")
     pull_cards_wr_table(expansion_code, f'card-ratings-{expansion_code}-{today}.csv')
