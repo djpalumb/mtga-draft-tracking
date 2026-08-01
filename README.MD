@@ -24,7 +24,7 @@ The application monitors the MTGA log file during a draft, identifies the curren
         - Mana costs
         - Color identity
         - Rarity
-    - Mainly used for mana symbols in the draft racker
+    - Mainly used for mana symbols in the draft tracker
 
 - **Built-in Data Management**
      Downloads and manages:
