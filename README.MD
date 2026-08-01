@@ -36,8 +36,10 @@ The application monitors the MTGA log file during a draft, identifies the curren
 
 ## Screenshots
 
-### TODO
-
+<p align="center">
+  <img src="screenshots/Update-Data-2026-07-31.png" alt="Update Data Page" width="45%">
+  <img src="screenshots/Draft-Tracker-2026-07-31.png" alt="Draft Tracker Page" width="45.5%">
+</p>
 
 ---
 
