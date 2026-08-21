@@ -24,7 +24,7 @@ The application monitors the MTGA log file during a draft, identifies the curren
         - Mana costs
         - Color identity
         - Rarity
-    - Mainly used for mana symbols in the draft racker
+    - Mainly used for mana symbols in the draft tracker
 
 - **Built-in Data Management**
      Downloads and manages:
@@ -49,6 +49,7 @@ The application monitors the MTGA log file during a draft, identifies the curren
 
 - Windows
 - Anaconda or Miniconda
+    - Setup in default location or modify py_setup.bat file if moved
 - Magic: The Gathering Arena installed
 
 ---

@@ -1,7 +1,4 @@
-Short Term
-- Listen to logfile for new lines
-    - Parse to find start of draft (and type of draft)
-
 Longterm
-- Use naming in logfile to pull proper winrate file when in draft (or just have user input format)
+- Get pictures of cards when user hovers over the name in the application
 - Show user's mean and median card selection winrates for overall draft grade
+- Fix the awful color scheme of the application
