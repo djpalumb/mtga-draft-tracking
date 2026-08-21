@@ -120,7 +120,7 @@ def process_logfile_line(draft: DraftTracker | None, line: str):
     return draft, update
 
 
-def parse_through_draft_logs(logfile_str_lines: List[str], max_lines: int = 200) -> DraftTracker:
+def parse_through_draft_logs(logfile_str_lines: List[str], max_lines: int = 1000) -> DraftTracker:
     """
     Reconstruct the current draft state from historical MTGA logs.
 

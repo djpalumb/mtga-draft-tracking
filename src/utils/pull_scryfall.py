@@ -143,7 +143,8 @@ def get_scryfall_info(
         "loyalty",
         "rarity",
         "set",
-        "collector_number"
+        "collector_number",
+        "arena_id"
     ]
 
     try:
@@ -170,7 +171,7 @@ def get_scryfall_info(
                     "loyalty": card.get("loyalty", ""),
                     "rarity": card.get("rarity", ""),
                     "set": card.get("set", ""),
-                    "collector_number": card.get("collector_number", "")
+                    "collector_number": card.get("collector_number", ""),
                 })
 
         # Delete the gz file

@@ -153,6 +153,10 @@ class DraftTracker:
 
         # Remove cards you personally took
         if (pack, prev_pick) in self.picks:
-            known_missing -= Counter(self.picks[(pack, prev_pick)])
+            picked = self.picks[(pack, prev_pick)]
+            if isinstance(picked, int):
+                picked = [picked]
+
+            known_missing -= Counter(picked)
 
         return list(known_missing.elements())

@@ -73,8 +73,6 @@ class DraftViewerApp(ttk.Frame):
         self.test_mode = test_mode
         self.logfile_path = TEST_LOGFILE_PATH if self.test_mode else LOGFILE_PATH
 
-        print(self.logfile_path)
-
         # Get Cards
         try:
             self.cards_filepath = get_cards_data_as_of()["filepath"]
