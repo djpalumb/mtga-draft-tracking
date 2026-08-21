@@ -60,7 +60,7 @@ def get_cards_data_as_of(data_dir="data"):
     """
 
     pattern = re.compile(
-        r"all-cards-(?P<date>\d{4}-\d{2}-\d{2})\.csv"
+        r"all-cards-17-lands-(?P<date>\d{4}-\d{2}-\d{2})\.csv"
     )
 
     latest = None

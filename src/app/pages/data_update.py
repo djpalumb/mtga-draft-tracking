@@ -1,20 +1,25 @@
 import tkinter as tk
 from tkinter import ttk
 import os
-
 from datetime import datetime
 
 from src.utils.pull_17lands_data import (
     pull_cards_wr_table,
     pull_all_cardlist,
-    get_cards_data_as_of,
-    get_most_recent_winrate_files
+    get_most_recent_winrate_files,
+    get_cards_data_as_of
 )
 from src.utils.pull_scryfall import (
     get_scryfall_info,
     get_scryfall_data_as_of
 )
+from src.utils.read_local_card_data import (
+    get_local_cards_data_as_of,
+    export_arena_cards
+)
 
+
+# This has been phased out in favor of local card database as it updates quicker
 def pull_cards_data():
     """Download the latest 17Lands card ID data and save locally."""
     today = datetime.now().strftime("%Y-%m-%d")
@@ -24,6 +29,18 @@ def pull_cards_data():
             f"all-cards-{today}.csv"
         )
     )
+# Newer card database setup
+def pull_local_cards_data():
+    """Use local SQLite file to get card mappings"""
+    today = datetime.now().strftime("%Y-%m-%d")
+    return export_arena_cards(
+        os.path.join(
+            'data',
+            f'arena-cards-{today}.csv'
+        )
+    )
+
+
 def pull_scryfall_data():
     """Download the latest Scryfall card metadata and save locally."""
     today = datetime.now().strftime("%Y-%m-%d")
@@ -109,7 +126,7 @@ class UpdateDataPage(ttk.Frame):
 
 
     def build_card_section(self):
-        """UI Section where user downloads 17lands and scryfall cardlists"""
+        """UI Section where user downloads card information"""
         box = ttk.LabelFrame(
             self,
             text=" Card Data ",
@@ -126,7 +143,7 @@ class UpdateDataPage(ttk.Frame):
 
         ttk.Label(
             box,
-            text="Current 17Lands Card Id data:"
+            text="Current Card Mapping As Of:"
         ).grid(
             row=0,
             column=0,
@@ -144,7 +161,7 @@ class UpdateDataPage(ttk.Frame):
             sticky="w"
         )
 
-        current = get_cards_data_as_of()
+        current = get_local_cards_data_as_of()
 
         if current:
             self.card_date_label.config(
@@ -153,7 +170,7 @@ class UpdateDataPage(ttk.Frame):
 
         self.update_card_data_button = ttk.Button(
             box,
-            text="Update 17Lands Cards",
+            text="Update Card Mapping",
             command=self.update_cards
         )
         self.update_card_data_button.grid(
@@ -278,18 +295,18 @@ class UpdateDataPage(ttk.Frame):
 
     def update_cards(self):
         self.status_label.config(
-            text="Downloading card data..."
+            text="Downloading card export..."
         )
 
         self.update_card_data_button.config(
-            text="Downloading...",
+            text="Processing...",
             state="disabled"
         )
         self.update_idletasks() 
 
-        success = pull_cards_data()
+        success = pull_local_cards_data()
 
-        date = get_cards_data_as_of()
+        date = get_local_cards_data_as_of()
         if 'date' in date.keys():
             self.card_date_label.config(
                 text=date['date']
@@ -303,7 +320,7 @@ class UpdateDataPage(ttk.Frame):
             )
         )
         self.update_card_data_button.config(
-            text="Update 17Lands Cards",
+            text="Update Card Mapping",
             state="normal"
         )
         self.update_idletasks() 

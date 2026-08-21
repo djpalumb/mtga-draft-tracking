@@ -41,6 +41,8 @@ def get_card_mana_costs(
         how="left"
     )
 
+    # Only get one copy per card, since it possible for a given card name to have multiple printings
+    df = df.drop_duplicates(subset=['name'], ignore_index=True)
     return df[["name", "mana_cost"]]
 
 
@@ -144,7 +146,6 @@ def get_scryfall_info(
         "rarity",
         "set",
         "collector_number",
-        "arena_id"
     ]
 
     try:

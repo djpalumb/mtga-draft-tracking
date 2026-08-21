@@ -28,7 +28,7 @@ The application monitors the MTGA log file during a draft, identifies the curren
 
 - **Built-in Data Management**
      Downloads and manages:
-        - 17Lands card references
+        - Local File SQLite Reading for Card GrpId Mapping
         - 17Lands winrate tables
         - Scryfall card metadata
 

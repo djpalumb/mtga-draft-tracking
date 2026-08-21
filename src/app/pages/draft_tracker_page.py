@@ -10,6 +10,9 @@ from src.utils.pull_17lands_data import (
     get_most_recent_winrate_files,
     get_cards_data_as_of
 )
+from src.utils.read_local_card_data import (
+    get_local_cards_data_as_of
+)
 from src.utils.pull_scryfall import(
     get_scryfall_data_as_of,
     get_card_mana_costs
@@ -75,7 +78,7 @@ class DraftViewerApp(ttk.Frame):
 
         # Get Cards
         try:
-            self.cards_filepath = get_cards_data_as_of()["filepath"]
+            self.cards_filepath = get_local_cards_data_as_of()["filepath"]
         except Exception as e:
             self.cards_filepath = None
 

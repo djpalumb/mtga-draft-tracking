@@ -159,4 +159,5 @@ class DraftTracker:
 
             known_missing -= Counter(picked)
 
+
         return list(known_missing.elements())
