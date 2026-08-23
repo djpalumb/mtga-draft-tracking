@@ -319,15 +319,9 @@ class DraftViewerApp(ttk.Frame):
 
         ttk.Label(
             self,
-            text=f"Set: {self.draft_expansion}"
-        ).pack(
-            anchor="c",
-            pady=0
-        )
-
-        ttk.Label(
-            self,
             text=(
+                f"Set: {self.draft_expansion}"
+                f"    |    "
                 f"Viewing: Pack {current_pack} • Pick {current_pick}"
                 f"    |    "
                 f"Current: Pack {latest_pack} • Pick {latest_pick}"

@@ -157,7 +157,7 @@ class UpdateDataPage(ttk.Frame):
         self.card_date_label.grid(
             row=0,
             column=1,
-            padx=10,
+            padx=(10, 20),
             sticky="w"
         )
 
@@ -174,10 +174,9 @@ class UpdateDataPage(ttk.Frame):
             command=self.update_cards
         )
         self.update_card_data_button.grid(
-            row=1,
-            column=0,
-            columnspan=2,
-            pady=(10, 20)
+            row=0,
+            column=2,
+            padx=(0, 5)
         )
 
         # -----------------------
@@ -188,9 +187,10 @@ class UpdateDataPage(ttk.Frame):
             box,
             text="Current Scryfall Card Data:"
         ).grid(
-            row=2,
+            row=1,
             column=0,
-            sticky="w"
+            sticky="w",
+            pady=(10, 0)
         )
 
         self.scryfall_date_label = ttk.Label(
@@ -198,28 +198,32 @@ class UpdateDataPage(ttk.Frame):
             text=""
         )
         self.scryfall_date_label.grid(
-            row=2,
+            row=1,
             column=1,
-            padx=10,
-            sticky="w"
+            padx=(10, 20),
+            sticky="w",
+            pady=(10, 0)
         )
 
         scryfall_date = get_scryfall_data_as_of()
+
         if scryfall_date:
             self.scryfall_date_label.config(
                 text=scryfall_date["date"]
             )
+
         self.update_scryfall_button = ttk.Button(
             box,
             text="Update Scryfall Cards",
             command=self.update_scryfall
         )
         self.update_scryfall_button.grid(
-            row=3,
-            column=0,
-            columnspan=2,
+            row=1,
+            column=2,
+            padx=(0, 5),
             pady=(10, 0)
         )
+
 
     def build_winrate_section(self):
         """UI Section where user downloads 17lands card winrate data"""
@@ -233,19 +237,31 @@ class UpdateDataPage(ttk.Frame):
             pady=10
         )
 
+        # -----------------------
+        # Set input
+        # -----------------------
+
         ttk.Label(
             box,
             text="Set:"
         ).grid(
             row=0,
-            column=0
+            column=0,
+            sticky="w"
         )
+
         self.wr_set_entry = ttk.Entry(box)
         self.wr_set_entry.grid(
             row=0,
             column=1,
-            padx=10
+            columnspan=2,
+            sticky="ew",
+            padx=(10, 0)
         )
+
+        # -----------------------
+        # Downloaded winrates
+        # -----------------------
 
         ttk.Label(
             box,
@@ -261,24 +277,67 @@ class UpdateDataPage(ttk.Frame):
             box,
             columns=("set", "date"),
             show="headings",
-            height=6
+            height=5
         )
 
-        self.wr_table.heading("set", text="Set")
-        self.wr_table.heading("date", text="Downloaded")
+        self.scrollbar = ttk.Scrollbar(
+            box,
+            orient="vertical",
+            style="Modern.Vertical.TScrollbar",
+            command=self.wr_table.yview
+        )
 
-        self.wr_table.column("set", width=80, anchor="center")
-        self.wr_table.column("date", width=120, anchor="center")
+        self.wr_table.configure(
+            yscrollcommand=self.scrollbar.set
+        )
+
+        self.wr_table.heading(
+            "set",
+            text="Set"
+        )
+        self.wr_table.heading(
+            "date",
+            text="Downloaded"
+        )
+
+        self.wr_table.column(
+            "set",
+            width=80,
+            anchor="center"
+        )
+        self.wr_table.column(
+            "date",
+            width=120,
+            anchor="center"
+        )
 
         self.refresh_winrate_table()
 
         self.wr_table.grid(
             row=1,
             column=1,
-            sticky="ew",
-            padx=10,
+            sticky="nsew",
+            padx=(10, 0),
             pady=(15, 0)
         )
+
+        self.scrollbar.grid(
+            row=1,
+            column=2,
+            sticky="ns",
+            padx=(5, 0),
+            pady=(15, 0)
+        )
+
+        # Allow the table to expand horizontally
+        box.columnconfigure(
+            1,
+            weight=1
+        )
+
+        # -----------------------
+        # Update button
+        # -----------------------
 
         self.update_wr_button = ttk.Button(
             box,
@@ -289,8 +348,8 @@ class UpdateDataPage(ttk.Frame):
         self.update_wr_button.grid(
             row=2,
             column=0,
-            columnspan=2,
-            pady=15
+            columnspan=3,
+            pady=(15, 0)
         )
 
     def update_cards(self):

@@ -25,8 +25,8 @@ class MainApp:
             print(f'Running in test mode.')
 
         self.root.title("MTGA Helper")
-        self.root.geometry("700x850")
-        self.root.minsize(600, 600)
+        self.root.geometry("700x800")
+        self.root.minsize(600, 800)
 
         configure_style(self)
 

@@ -155,3 +155,19 @@ def configure_style(application):
         font=("Segoe UI", 11, "bold")
     )
 
+    style.configure(
+        "Modern.Vertical.TScrollbar",
+        background="#3a3a3a",
+        troughcolor="#252525",
+        bordercolor="#252525",
+        arrowcolor="#888888",
+        width=8
+    )
+
+    style.map(
+        "Modern.Vertical.TScrollbar",
+        background=[
+            ("active", "#555555"),
+            ("pressed", "#666666")
+        ]
+    )
