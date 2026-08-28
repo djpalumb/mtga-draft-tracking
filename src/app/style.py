@@ -3,11 +3,11 @@ from tkinter import ttk
 
 CARD_COLOR_MAP = {
     "U": "#5297D6",
-    "W": "#BDAF91",
+    "": "#BDAF91", # "Gray colorless"
     "B": "#6B5B73",
     "G": "#6FA36B",
     "R": "#C96B5B",
-    "":"#CAD1D1",
+    "W":"#CAD1D1",
     "MULTICOLOR": "#B18F1E"
 }
 
