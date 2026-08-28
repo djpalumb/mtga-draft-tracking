@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 import os
 import re
+from src.utils.download_images import sanitize_filename
+from PIL import Image, ImageTk
+from glob import glob
 
 from src.app.style import (
     CARD_COLOR_MAP, 
@@ -82,6 +85,160 @@ def mana_cost_to_icons(
     return results
 
 
+def show_card_image_on_hover(
+    widget, 
+    card_name, 
+    set_code,
+    images_dir=os.path.join("data","card_images")
+):
+    """
+    Attach a hover handler to a Tkinter widget that displays the card's
+    image in a small popup window.
+
+    The card image is expected at:
+        {images_dir}/{set_code}/{sanitized_card_name}.jpg
+
+    Returns the hover callbacks so they can optionally be managed later.
+    """
+
+    card_dir = os.path.join(images_dir, set_code)
+
+    # First try the exact filename
+    exact_path = os.path.join(
+        card_dir,
+        sanitize_filename(card_name) + ".jpg"
+    )
+
+    if os.path.isfile(exact_path):
+        image_path = exact_path
+    else:
+        # Fall back to any file beginning with the sanitized card name
+        pattern = os.path.join(
+            card_dir,
+            sanitize_filename(card_name) + "*.jpg"
+        )
+
+        matches = glob(pattern)
+
+        if matches:
+            image_path = matches[0]
+        else:
+            print(f"Card image not found: {exact_path}")
+            return
+    
+    popup = None
+    popup_image = None
+
+    def on_enter(event):
+        nonlocal popup, popup_image
+
+        # Don't create multiple popups
+        if popup is not None:
+            return
+
+        try:
+            image = Image.open(image_path)
+
+            # Example: 40% size
+            new_width = int(image.width * 0.4)
+            new_height = int(image.height * 0.4)
+
+            image = image.resize(
+                (new_width, new_height),
+                Image.Resampling.LANCZOS
+            )
+
+            popup_image = ImageTk.PhotoImage(image)
+
+            popup = tk.Toplevel(widget)
+            popup.overrideredirect(True)
+            popup.attributes("-topmost", True)
+
+            label = tk.Label(
+                popup,
+                image=popup_image,
+                bg="black",
+                bd=1,
+                relief="solid"
+            )
+            label.pack()
+
+            popup.update_idletasks()
+
+            popup_width = popup.winfo_width()
+            popup_height = popup.winfo_height()
+
+            screen_width = popup.winfo_screenwidth()
+            screen_height = popup.winfo_screenheight()
+
+            widget_x = widget.winfo_rootx()
+            widget_y = widget.winfo_rooty()
+            widget_width = widget.winfo_width()
+            widget_height = widget.winfo_height()
+
+            gap = 5
+
+            # -----------------------------------------
+            # Try right
+            # -----------------------------------------
+
+            x = widget_x + widget_width + gap
+            y = widget_y
+
+            if x + popup_width <= screen_width:
+                # Fits on the right
+                pass
+
+            # -----------------------------------------
+            # Try left
+            # -----------------------------------------
+
+            elif widget_x - popup_width - gap >= 0:
+                x = widget_x - popup_width - gap
+
+
+            # -----------------------------------------
+            # Nothing fits perfectly
+            # Clamp to screen
+            # -----------------------------------------
+
+            else:
+                # Center horizontally over the widget
+                x = widget_x + (widget_width - popup_width) // 2
+
+                # Put it above if possible, otherwise below
+                if widget_y >= popup_height + gap:
+                    y = widget_y - popup_height - gap
+                else:
+                    y = widget_y + widget_height + gap
+
+            # -----------------------------------------
+            # Final screen boundary protection
+            # -----------------------------------------
+
+            x = max(5, min(x, screen_width - popup_width - 5))
+            y = max(5, min(y, screen_height - popup_height - 5))
+
+            popup.geometry(f"+{x}+{y}")
+
+        except Exception as e:
+            print(f"Failed to display card image: {image_path}")
+            print(e)
+
+    def on_leave(event):
+        nonlocal popup, popup_image
+
+        if popup is not None:
+            popup.destroy()
+            popup = None
+            popup_image = None
+
+    widget.bind("<Enter>", on_enter)
+    widget.bind("<Leave>", on_leave)
+
+    return on_enter, on_leave
+
+
 class CardRow(tk.Frame):
     def __init__(
         self,
@@ -92,7 +249,8 @@ class CardRow(tk.Frame):
         grade,
         rarity,
         picked,
-        mana_cost=''
+        mana_cost='',
+        set_code=None,
     ):
         super().__init__(parent, bg="#1e1e1e")
         self.name = name
@@ -102,6 +260,7 @@ class CardRow(tk.Frame):
         self.picked = picked
         self.rarity = rarity
         self.mana_cost = mana_cost
+        self.set_code = set_code
 
         self.build()
 
@@ -254,3 +413,10 @@ class CardRow(tk.Frame):
             row=0,
             column=3
         )
+
+        if self.set_code:
+            show_card_image_on_hover(
+                self,
+                self.name,
+                self.set_code
+            )

@@ -547,6 +547,7 @@ class DraftViewerApp(ttk.Frame):
             grade,
             rarity,
             picked,
-            mana_cost
+            mana_cost,
+            self.draft.expansion
         )
         row.pack(fill="x", pady=1)

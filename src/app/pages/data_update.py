@@ -17,7 +17,27 @@ from src.utils.read_local_card_data import (
     get_local_cards_data_as_of,
     export_arena_cards
 )
+from src.utils.download_images import (
+    download_set_images,
+    get_downloaded_card_image_sets
+)
 
+IMAGE_OUTPUT_DIR = os.path.join('data','card_images')
+
+def pull_card_images(set_code):
+    """Download card images for a specific MTGA set."""
+    output_dir = os.path.join(
+        "data",
+        "card_images",
+        set_code
+    )
+
+    os.makedirs(output_dir, exist_ok=True)
+
+    return download_set_images(
+        set_code=set_code,
+        output_dir=output_dir
+    )
 
 # This has been phased out in favor of local card database as it updates quicker
 def pull_cards_data():
@@ -107,7 +127,7 @@ class UpdateDataPage(ttk.Frame):
         )
 
         self.build_card_section()
-        self.build_winrate_section()
+        self.build_set_download_section()
 
         self.status_label = ttk.Label(
             self,
@@ -123,7 +143,6 @@ class UpdateDataPage(ttk.Frame):
             text="← Back",
             command=self.show_menu
         ).pack()
-
 
     def build_card_section(self):
         """UI Section where user downloads card information"""
@@ -225,18 +244,36 @@ class UpdateDataPage(ttk.Frame):
         )
 
 
-    def build_winrate_section(self):
-        """UI Section where user downloads 17lands card winrate data"""
-        box = ttk.LabelFrame(
-            self,
-            text=" Winrate Data ",
-            padding=15
-        )
-        box.pack(
-            fill="x",
+    def build_set_download_section(self):
+        """Build the set-specific download sections."""
+
+        container = ttk.Frame(self)
+        container.pack(
+            fill="both",
+            expand=True,
             pady=10
         )
 
+        container.columnconfigure(0, weight=1)
+        container.columnconfigure(1, weight=1)
+
+        self.build_winrate_section(container, column=0)
+        self.build_card_image_section(container, column=1)
+
+
+    def build_winrate_section(self, parent, column):
+        """UI Section where user downloads 17lands card winrate data"""
+        box = ttk.LabelFrame(
+            parent,
+            text=" Winrate Data ",
+            padding=15
+        )
+        box.grid(
+            row=0,
+            column=column,
+            sticky="nsew",
+            padx=(0, 5) if column == 0 else (5, 0)
+        )
         # -----------------------
         # Set input
         # -----------------------
@@ -352,6 +389,184 @@ class UpdateDataPage(ttk.Frame):
             pady=(15, 0)
         )
 
+
+    def build_card_image_section(self, parent, column):
+        """UI section for downloading card images for a set."""
+
+        box = ttk.LabelFrame(
+            parent,
+            text=" Card Images ",
+            padding=15
+        )
+
+        box.grid(
+            row=0,
+            column=column,
+            sticky="nsew",
+            padx=(5, 0)
+        )
+
+        # -----------------------
+        # Set input
+        # -----------------------
+
+        ttk.Label(
+            box,
+            text="Set Code:"
+        ).grid(
+            row=0,
+            column=0,
+            sticky="w"
+        )
+
+        self.image_set_entry = ttk.Entry(box)
+        self.image_set_entry.grid(
+            row=0,
+            column=1,
+            sticky="ew",
+            padx=(10, 0)
+        )
+
+        # -----------------------
+        # Downloaded sets
+        # -----------------------
+
+        ttk.Label(
+            box,
+            text="Downloaded:"
+        ).grid(
+            row=1,
+            column=0,
+            sticky="nw",
+            pady=(15, 0)
+        )
+
+        self.image_set_table = ttk.Treeview(
+            box,
+            columns=("set",),
+            show="headings",
+            height=5
+        )
+
+        scrollbar = ttk.Scrollbar(
+            box,
+            orient="vertical",
+            command=self.image_set_table.yview
+        )
+
+        self.image_set_table.configure(
+            yscrollcommand=scrollbar.set
+        )
+
+        self.image_set_table.heading(
+            "set",
+            text="Set"
+        )
+
+        self.image_set_table.column(
+            "set",
+            width=100,
+            anchor="center"
+        )
+
+        self.image_set_table.grid(
+            row=1,
+            column=1,
+            sticky="nsew",
+            padx=(10, 0),
+            pady=(15, 0)
+        )
+
+        scrollbar.grid(
+            row=1,
+            column=2,
+            sticky="ns",
+            padx=(5, 0),
+            pady=(15, 0)
+        )
+
+        # Allow table to expand
+        box.columnconfigure(
+            1,
+            weight=1
+        )
+
+        # -----------------------
+        # Update button
+        # -----------------------
+
+        self.update_images_button = ttk.Button(
+            box,
+            text="Download Images",
+            command=self.update_card_images
+        )
+
+        self.update_images_button.grid(
+            row=2,
+            column=0,
+            columnspan=3,
+            pady=(15, 0)
+        )
+
+        self.refresh_card_image_table()
+
+
+    def refresh_card_image_table(self):
+        for item in self.image_set_table.get_children():
+            self.image_set_table.delete(item)
+
+        sets = get_downloaded_card_image_sets(IMAGE_OUTPUT_DIR)
+
+        for set_code in sorted(sets):
+            self.image_set_table.insert(
+                "",
+                "end",
+                values=(set_code,)
+            )
+
+
+    def update_card_images(self):
+        set_code = self.image_set_entry.get().strip()
+
+        if not set_code:
+            self.status_label.config(
+                text="✗ Please enter a set code"
+            )
+            return
+
+        set_code = set_code.upper()
+
+        self.status_label.config(
+            text=f"Downloading {set_code} card images..."
+        )
+
+        self.update_images_button.config(
+            text="Downloading...",
+            state="disabled"
+        )
+
+        self.update_idletasks()
+
+        success = pull_card_images(set_code)
+
+        self.status_label.config(
+            text=(
+                f"✓ {set_code} images downloaded"
+                if success
+                else f"✗ Failed to download {set_code} images"
+            )
+        )
+
+        if success:
+            self.refresh_card_image_table()
+
+        self.update_images_button.config(
+            text="Download Images",
+            state="normal"
+        )
+
+        self.update_idletasks()
+
     def update_cards(self):
         self.status_label.config(
             text="Downloading card export..."
@@ -415,6 +630,7 @@ class UpdateDataPage(ttk.Frame):
             state="normal"
         )
         self.update_idletasks() 
+
 
     def update_winrates(self):
         print('Running update winrates...')
