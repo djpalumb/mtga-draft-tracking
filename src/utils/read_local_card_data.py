@@ -16,10 +16,12 @@ COLOR_MAP = {
 
 
 RARITY_MAP = {
-    1: "common",
-    2: "uncommon",
-    3: "rare",
-    4: "mythic",
+    0: "token",
+    1: "common", # basic lands and common lands
+    2: "common",
+    3: "uncommon",
+    4: "rare",
+    5: "mythic",
 }
 
 def clean_arena_name(name):
